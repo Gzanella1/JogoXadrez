@@ -1,3 +1,7 @@
+package chess;
+
+import boardGame.Board;
+
 public class ChessMatch {
 
     private int turn;

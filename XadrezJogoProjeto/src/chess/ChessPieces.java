@@ -1,3 +1,8 @@
+package chess;
+
+import boardGame.Piece;
+import boardGame.Position;
+
 public abstract class ChessPieces extends Piece{
     private Color color;
     private int moveCount;

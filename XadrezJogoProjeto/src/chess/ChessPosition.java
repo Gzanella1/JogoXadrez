@@ -1,3 +1,7 @@
+package chess;
+
+import boardGame.Position;
+
 public class ChessPosition {
 
     private char column;
