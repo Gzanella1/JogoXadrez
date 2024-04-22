@@ -1,7 +1,14 @@
 package boardGame;
 
 public class Piece {
+
     protected Position position;
+    private Board board;
+
+    public Piece(Board board) {
+        this.board = board;
+        position=null;
+    }
 
     public Piece[][] possibleMoves(){
         // TODO
@@ -25,11 +32,14 @@ public class Piece {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+    // somente classes dentro do mesmo pacote
+    // e sub classes podem acessar o tabuleiro de uma peça
+    protected Board getBoard() {
+        return board;
+    }
+
 }
 
 
-// site que da uma sequencia de jogadas par verificar com o meu codigo
-// classe jogado
-// pc x vc
-// jogador1 x pc
 

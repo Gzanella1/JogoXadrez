@@ -13,10 +13,24 @@ public class ChessMatch {
 
     private Board board;
 
-    public ChessPieces[][] getPieces(){
-        // TODO
-        return null;
+    public ChessMatch() {
+        this.board = new Board(8,8);
     }
+
+    public ChessPieces[][] getPieces(){
+        // Vai retornar uma matriz de peças de xadrez, corespondente a partida.
+        // Vamos retornar um chessPeace pq o programa so encherga a chesspeace ele não encherga a peace
+        ChessPieces[][] matriz=new ChessPieces[board.getRows()][board.getColumns()];
+        // Percorer a matriz de peça do tabuleiro,que é o board
+        // e para cada peça, fazer um donCAstin para chesspieces
+        for (int i = 0; i < board.getRows(); i++) {
+            for (int j = 0; j < board.getColumns(); j++) {
+                matriz[i][j] = (ChessPieces) board.piece(i,j);
+            }
+        }
+        return matriz;
+    }
+
     public boolean[][] possibleMoves(ChessPosition sourcePosition){
         // TODO
         return null;
@@ -32,7 +46,10 @@ public class ChessMatch {
     }
 
 
-    // GETTER E SETTER
+    // ==================
+    //  Getter e setter
+    // ==================
+
     public int getTurn() {
         return turn;
     }
