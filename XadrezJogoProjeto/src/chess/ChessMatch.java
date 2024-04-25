@@ -1,6 +1,9 @@
 package chess;
 
 import boardGame.Board;
+import boardGame.Position;
+import chess.piecesType.Rook;
+import chess.piecesType.king;
 
 public class ChessMatch {
 
@@ -15,11 +18,16 @@ public class ChessMatch {
 
     public ChessMatch() {
         this.board = new Board(8,8);
+        initialSetup();
     }
 
+    /**
+     * Vai retornar uma matriz de peças de xadrez, corespondente a partida.
+     * Vamos retornar um chessPeace, pois o programa so enchergará a chesspeace
+     * ele não encherga a peace.
+     * @return
+     */
     public ChessPieces[][] getPieces(){
-        // Vai retornar uma matriz de peças de xadrez, corespondente a partida.
-        // Vamos retornar um chessPeace pq o programa so encherga a chesspeace ele não encherga a peace
         ChessPieces[][] matriz=new ChessPieces[board.getRows()][board.getColumns()];
         // Percorer a matriz de peça do tabuleiro,que é o board
         // e para cada peça, fazer um donCAstin para chesspieces
@@ -29,6 +37,15 @@ public class ChessMatch {
             }
         }
         return matriz;
+    }
+
+    /**
+     * Responsavel por iniciar a partida de xadrez, colocando as peças no tabuleiro;
+     */
+    public void initialSetup(){
+        // rock recebe um tabulerio, para saber onde a peça var ficar e uma cor;
+        board.placePiece(new Rook(board,Color.BRANCO),new Position(5,5));
+        board.placePiece(new king(board,Color.PRETO), new Position(7,7));
     }
 
     public boolean[][] possibleMoves(ChessPosition sourcePosition){

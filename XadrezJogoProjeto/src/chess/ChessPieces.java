@@ -8,10 +8,10 @@ public  class ChessPieces extends Piece{
     private Color color;
     private int moveCount;
 
-    public ChessPieces(Board board, Color color, int moveCount) {
+    public ChessPieces(Board board, Color color) {
         super(board);
         this.color = color;
-        this.moveCount = moveCount;
+        //this.moveCount = moveCount;
     }
 
     public ChessPosition getChessPosition(){

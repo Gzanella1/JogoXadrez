@@ -4,6 +4,13 @@ import chess.ChessPieces;
 
 public class UI {
 
+
+    /**
+     * Imprime o tabuleiro de xadrez com as peças fornecidas.
+     * Cada peça é representada por um objeto ChessPieces.
+     *
+     * @param pieces Um array bidimensional de objetos ChessPieces representando o estado do tabuleiro.
+     */
     public static void printBoard(ChessPieces[][] pieces) {
         // Imprime o tabuleiro no formato
         // Printa a linha
@@ -18,6 +25,10 @@ public class UI {
         System.out.println("     a  b  c  d  e  f  g  h");
     }
 
+    /**
+     *  Responsavel por imprimir uma peça.
+     * @param piece
+     */
     public static void printPiece(ChessPieces piece) {
         // imprime uma peça
         if (piece == null) {

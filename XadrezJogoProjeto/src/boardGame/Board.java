@@ -12,18 +12,37 @@ public class Board {
 
     }
 
+    /**
+     * Retorna uma peça de uma determinada linha e coluna passada por parametro.
+     * @param row
+     * @param columns
+     * @return vai retornar a peça dada a uma linha/coluna
+     */
     public Piece piece(int row, int columns) {
-        // vai retornar a peça dada a uma linha/coluna
         return pieces[row][columns];
     }
 
+    /**
+     *
+     * @param position
+     * @return a peça na determinada posição
+     */
     public Piece piece(Position position) {
-        // vai retornar a peça pela posição
         return pieces[position.getRow()][position.getColumn()];
     }
 
+    /**
+     * Metodo responsavel por colocar a peça na possição do tabuleiro
+     * @param piece
+     * @param position
+     */
     public void placePiece(Piece piece, Position position) {
-        // TODO
+        // Array de peças, na posição linha/coluna recebe a peça do parametro
+        pieces[position.getRow()][position.getColumn()]= piece;
+        // Essa peça não está mais na posição nula, agora ela vai esta na posição
+        // que foi passada no parametro.
+        piece.position=position;
+
     }
 
     public Piece removePiece(Position position) {

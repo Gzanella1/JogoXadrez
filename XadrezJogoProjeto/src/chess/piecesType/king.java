@@ -1,4 +1,16 @@
-package piecesType;
+package chess.piecesType;
 
-public class king {
+import boardGame.Board;
+import chess.ChessPieces;
+import chess.Color;
+
+public class king extends ChessPieces {
+    public king(Board board, Color color ) {
+        super(board, color);
+    }
+
+    @Override
+    public String toString() {
+        return " K ";
+    }
 }
