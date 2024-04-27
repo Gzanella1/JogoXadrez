@@ -44,7 +44,7 @@ public class ChessMatch {
      */
     public void initialSetup(){
         // rock recebe um tabulerio, para saber onde a peça var ficar e uma cor;
-        board.placePiece(new Rook(board,Color.BRANCO),new Position(7,4));
+        board.placePiece(new Rook(board,Color.BRANCO),new Position(5,5));
         board.placePiece(new king(board,Color.PRETO), new Position(7,7));
     }
 
