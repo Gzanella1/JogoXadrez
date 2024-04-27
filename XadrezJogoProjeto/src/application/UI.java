@@ -4,7 +4,6 @@ import chess.ChessPieces;
 
 public class UI {
 
-
     /**
      * Imprime o tabuleiro de xadrez com as peças fornecidas.
      * Cada peça é representada por um objeto ChessPieces.
