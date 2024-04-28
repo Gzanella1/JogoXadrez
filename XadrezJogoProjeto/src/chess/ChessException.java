@@ -1,7 +1,11 @@
 package chess;
 
-public class ChessException {
-    public void ChessException(String mensagem) {
-        // TODO
+import boardGame.BoardException;
+
+public class ChessException  extends BoardException {
+    private static final long serialVersionUID= 1L;
+
+    public  ChessException(String msg) {
+            super(msg);
     }
 }

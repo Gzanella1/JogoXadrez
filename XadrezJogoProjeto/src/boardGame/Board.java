@@ -16,14 +16,13 @@ public class Board {
 
     /**
      * Retorna uma peça de uma determinada linha e coluna passada por parametro.
-     *
      * @param row
      * @param columns
      * @return vai retornar a peça dada a uma linha/coluna
      */
     public Piece piece(int row, int columns) {
         if (!positionExists(row, columns)) {
-            throw new BoardException("Essa posição não existe, logo não ha peça.");
+            throw new BoardException("Essa posição não existe no tabuleiro.");
         }
         return pieces[row][columns];
     }
@@ -36,7 +35,7 @@ public class Board {
      */
     public Piece piece(Position position) {
         if (!positionExists(position)) {
-            throw new BoardException("Essa posição não existe, logo não ha peça.");
+            throw new BoardException("Essa posição não existe no tabuleiro.");
         }
         return pieces[position.getRow()][position.getColumn()];
     }
@@ -60,11 +59,23 @@ public class Board {
 
     }
 
+    /**
+     * Vai remover uma peça na posição
+     * @param position
+     * @return
+     */
     public Piece removePiece(Position position) {
-        // TODO
-        return null;
+        if (!positionExists(position)) {
+            throw new BoardException("Essa posição não existe no tabuleiro.");
+        }
+        if(piece(position) == null){
+            return null;
+        }
+        Piece auxiliar= piece(position);
+        auxiliar.position=null;
+        pieces[position.getRow()][position.getColumn()]=null;
+        return auxiliar;
     }
-
 
     /**
      * Metodo que recebe uma posição e retorna true se essa posição existe.

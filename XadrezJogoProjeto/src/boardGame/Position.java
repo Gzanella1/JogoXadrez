@@ -19,8 +19,9 @@ public class Position {
         return "row=" + row + ", column=" + column ;
     }
 
-
-    // GETTER E SETTER
+    // ======================
+    //  GETTER E SETTER
+    // ======================
 
     public int getRow() {
         return row;
@@ -28,11 +29,9 @@ public class Position {
     public void setRow(int row) {
         this.row = row;
     }
-
     public int getColumn() {
         return column;
     }
-
     public void setColumn(int column) {
         this.column = column;
     }
