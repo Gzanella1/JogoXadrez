@@ -1,29 +1,54 @@
 package boardGame;
 
-public class Piece {
+public abstract class Piece {
 
     protected Position position;
     private Board board;
 
     public Piece(Board board) {
         this.board = board;
-        position=null;
+        position = null;
     }
 
-    public Piece[][] possibleMoves(){
+
+    public abstract boolean[][] possibleMoves();
+
+    public Piece[][] possibleMove() {
         // TODO
         return null;
     }
-    public boolean possibleMove(Position position){
-        // TODO
-        return false;
+
+    /**
+     * Verifica o movimento possivel para a posição passada.
+     * Esse metodo esta fazendo um "gancho" com a sua subcalsse atravez do meotdo abstrato.
+     *
+     * @param position .
+     * @return boolean
+     */
+    public boolean possibleMove(Position position) {
+        return possibleMoves()[position.getRow()][position.getColumn()];
     }
-    public boolean isThereAnyPossibleMove(){
-        // TODO
+
+    /**
+     * Verifica se a peça consegue fazer pelo menos um movimento, ajuda nos casos onde a peça está travada, ou seja, sem movimento.
+     *
+     * @return boolean
+     */
+    public boolean isThereAnyPossibleMove() {
+        boolean[][] mat = possibleMoves();
+        for (int i=0; i<mat.length; i++) {
+            for (int j=0; j<mat.length; j++) {
+                if (mat[i][j]) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
-    // GETTER E SETTER
+    // ==================
+    //   Getter e setter
+    // ==================
 
     public Position getPosition() {
         return position;
@@ -34,12 +59,8 @@ public class Piece {
     }
 
     // somente classes dentro do mesmo pacote
-    // e sub classes podem acessar o tabuleiro de uma peça
+    // e subclasses podem acessar o tabuleiro de uma peça
     protected Board getBoard() {
         return board;
     }
-
 }
-
-
-

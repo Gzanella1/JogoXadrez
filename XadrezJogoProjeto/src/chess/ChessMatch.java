@@ -19,7 +19,7 @@ public class ChessMatch {
     private Board board;
 
     public ChessMatch() {
-        this.board = new Board(8,8);
+        this.board = new Board(8, 8);
         initialSetup();
     }
 
@@ -27,15 +27,16 @@ public class ChessMatch {
      * Vai retornar uma matriz de peças de xadrez, corespondente a partida.
      * Vamos retornar um chessPeace, pois o programa so enchergará a chesspeace
      * ele não encherga a peace.
+     *
      * @return ChessPieces[][]
      */
-    public ChessPieces[][] getPieces(){
-        ChessPieces[][] matriz=new ChessPieces[board.getRows()][board.getColumns()];
+    public ChessPieces[][] getPieces() {
+        ChessPieces[][] matriz = new ChessPieces[board.getRows()][board.getColumns()];
         // Percorer a matriz de peça do tabuleiro,que é o board
         // e para cada peça, fazer um donCAstin para chesspieces
         for (int i = 0; i < board.getRows(); i++) {
             for (int j = 0; j < board.getColumns(); j++) {
-                matriz[i][j] = (ChessPieces) board.piece(i,j);
+                matriz[i][j] = (ChessPieces) board.piece(i, j);
             }
         }
         return matriz;
@@ -44,24 +45,25 @@ public class ChessMatch {
     /**
      * Coloque uma peça
      * Vai receber as coordenadas do xadrez, converter em coordenada de matriz
+     *
      * @param column
      * @param row
      * @param piece
      */
-    private void  placeNewPiece(char column,int row, ChessPieces piece){
-        board.placePiece(piece, new ChessPosition(column,row).toPosition());
+    private void placeNewPiece(char column, int row, ChessPieces piece) {
+        board.placePiece(piece, new ChessPosition(column, row).toPosition());
     }
 
     /**
      * Responsavel por iniciar a partida de xadrez, colocando as peças no tabuleiro;
-     *  <br>
-     *  <br>// Explicação: codigo comentado coloca a peça conforme cordenada do array,
-     *  ja o codigo que não está coloca na coordenada de xadrez
-     *  <br>// OBS: rock recebe um tabulerio, para saber onde a peça var ficar e uma cor;
-     *  <br>// O codigo comentado abaixo está com position (0,0) ao rodar o programa ele vai colocar uma peça na posição A8,
-     *  o que está errado no xadrez, seria na A1 por isso crimamos o placeNewPiece
+     * <br>
+     * <br>// Explicação: codigo comentado coloca a peça conforme cordenada do array,
+     * ja o codigo que não está coloca na coordenada de xadrez
+     * <br>// OBS: rock recebe um tabulerio, para saber onde a peça var ficar e uma cor;
+     * <br>// O codigo comentado abaixo está com position (0,0) ao rodar o programa ele vai colocar uma peça na posição A8,
+     * o que está errado no xadrez, seria na A1 por isso crimamos o placeNewPiece
      */
-    public void initialSetup(){
+    public void initialSetup() {
         // board.placePiece(new king(board,Color.PRETO), new Position(0,0));
 
         placeNewPiece('c', 1, new Rook(board, Color.BRANCO));
@@ -79,57 +81,76 @@ public class ChessMatch {
         placeNewPiece('d', 8, new King(board, Color.PRETO));
     }
 
-    public boolean[][] possibleMoves(ChessPosition sourcePosition){
+    public boolean[][] possibleMoves(ChessPosition sourcePosition) {
         // TODO
         return null;
     }
 
-
     /**
      * Executar movimento de xadrez
+     *
      * @param sourcePosition (posição de origem)
      * @param targetPosition (posição destinho)
      * @return ChessPieces
      */
-    public ChessPieces performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition){
-        Position source=sourcePosition.toPosition();
-        Position target=targetPosition.toPosition();
-
+    public ChessPieces performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+        Position source = sourcePosition.toPosition();
+        Position target = targetPosition.toPosition();
         validateSourcePosition(source);
-
-        Piece capturePiece = makeMove(source,target);
-        return (ChessPieces) capturePiece;
+        validateTargetPosition(source, target);
+        Piece capturedPiece = makeMove(source, target);
+        return (ChessPieces) capturedPiece;
     }
 
+
+
     /**
-     * Validar a posição de origem
+     * Validar a posição de origem.
+     *
      * @param position
      */
-    private void validateSourcePosition(Position position){
-        if (!board.thereIsAPiece(position)){
+    private void validateSourcePosition(Position position) {
+        if (!board.thereIsAPiece(position)) {
             throw new ChessException("Não existe peça na posição de origem.");
+        }
+        if (!board.piece(position).isThereAnyPossibleMove()) {
+            throw new ChessException("Não existe movimentos possiveis para a peça.");
         }
     }
 
+
     /**
-     *  A responsavel direta por fazer o movimento, onde possui a lógica de movimento
+     * Valida a posição de destino da peça.
+     * @param source
+     * @param target
+     */
+
+
+    private void validateTargetPosition(Position source, Position target) {
+        if (!board.piece(source).possibleMove(target)) {
+            throw new ChessException("Não é possivel fazer o movimento.");
+        }
+    }
+
+
+    /**
+     * A responsavel direta por fazer o movimento, onde possui a lógica de movimento
+     *
      * @param source
      * @param target
      * @return
      */
-    private Piece makeMove(Position source, Position target){
+    private Piece makeMove(Position source, Position target) {
         Piece p = board.removePiece(source);
         Piece capturedPiece = board.removePiece(target);
         board.placePiece(p, target);
-        return  capturedPiece;
+        return capturedPiece;
     }
 
-    public ChessPieces replacePromotedPiece(String type){
+    public ChessPieces replacePromotedPiece(String type) {
         // TODO
         return null;
     }
-
-
 
     // ==================
     //  Getter e setter

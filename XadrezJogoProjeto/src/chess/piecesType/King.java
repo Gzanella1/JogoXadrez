@@ -13,4 +13,10 @@ public class King extends ChessPieces {
     public String toString() {
         return " \u2654 ";
     }
+
+    @Override
+    public boolean[][] possibleMoves() {
+        boolean[][] matrizAuxiliar = new boolean[getBoard().getRows()][getBoard().getColumns()];
+        return matrizAuxiliar;
+    }
 }

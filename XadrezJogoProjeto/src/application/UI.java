@@ -33,7 +33,6 @@ public class UI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-
     /**
      * Imprime o tabuleiro de xadrez com as peças fornecidas.
      * Cada peça é representada por um objeto ChessPieces.
@@ -72,7 +71,6 @@ public class UI {
         System.out.print("");
     }
 
-
     /**
      * Metodo responsavel por ler uma posição do tipo @{@link ChessPosition}
      *
@@ -86,22 +84,54 @@ public class UI {
             String s = in.nextLine();
             char column = s.charAt(0);
             int row = Integer.parseInt(s.substring(1));
-            return new ChessPosition(column,row);
+            return new ChessPosition(column, row);
         } catch (RuntimeException e) {
             throw new InputMismatchException("Erro ao ler a ChessPosition. Valores validos de A1 até H8");
         }
     }
+
+    // https://stackoverflow.com/questions/2979383/java-clear-the-console
+    public static void clearScreen() {
+        try {
+            final String os = System.getProperty("os.name");
+            if (os.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (final Exception e) {
+            System.out.println("Erro ao limpar o console: " + e.getMessage());
+        }
+    }
 }
 
-//    public static void printPiece(ChessPieces piece) {
-//        // imprime uma peça
-//        if (piece == null) {
-//            System.out.print(" - ");
-//        } else {
-//            System.out.print(piece);
-//        }
-//        System.out.print("");
-//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

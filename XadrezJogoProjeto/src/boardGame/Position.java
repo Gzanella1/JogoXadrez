@@ -9,8 +9,14 @@ public class Position {
         this.column = column;
     }
 
-    public void setValues(int row, int colunm){
-        // TODO
+    /**
+     * Método responsavel por atualizar os valores de uma posição.
+     * @param row
+     * @param column
+     */
+    public void setValues(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
     @Override
