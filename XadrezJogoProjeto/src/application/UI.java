@@ -46,29 +46,50 @@ public class UI {
             System.out.print((8 - i) + " | ");
             //Print da coluna
             for (int j = 0; j < pieces[i].length; j++) {
-                printPiece(pieces[i][j]);
+                printPiece(pieces[i][j],false);
             }
             System.out.println();
         }
-        System.out.println("     a  b  c  d  e  f  g  h");
+        System.out.println("     a   b   c   d   e   f   g   h");
+    }
+
+    /**
+     * Essa impressão do tabuleiro, marca as posições que são possiveis.
+     * Imprime o tabuleiro considerando os movimentos possiveis
+     * @param pieces
+     * @param possibleMoves
+     */
+    public static void printBoard(ChessPieces[][] pieces, boolean[][] possibleMoves) {
+        for (int i = 0; i < pieces.length; i++) {
+            System.out.print((8 - i) + " | ");
+            for (int j = 0; j < pieces.length; j++) {
+                printPiece(pieces[i][j], possibleMoves[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println("     a   b   c   d   e   f   g   h");
     }
 
     /**
      * Responsavel por imprimir uma peça.
-     *
      * @param piece
      */
-    private static void printPiece(ChessPieces piece) {
+    private static void printPiece(ChessPieces piece, boolean background) {
+        if (background) {
+            System.out.print(ANSI_BLUE_BACKGROUND);
+        }
         if (piece == null) {
-            System.out.print(" - ");
-        } else {
+            System.out.print(" - " + ANSI_RESET);
+        }
+        else {
             if (piece.getColor() == Color.BRANCO) {
-                System.out.print(ANSI_CYAN + piece + ANSI_RESET);
-            } else {
+                System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+            }
+            else {
                 System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
             }
         }
-        System.out.print("");
+        System.out.print(" ");
     }
 
     /**
@@ -76,7 +97,6 @@ public class UI {
      * @param in
      * @return
      */
-
     public static ChessPosition readChessPosition(Scanner in) {
         // vamos ler a posição do tipo do xadrez exemplo: A1
         // ler a posição e separar a Linha que seria o 1 da coluna que seria "A"

@@ -24,9 +24,16 @@ public class ChessMatch {
     }
 
 
+    /**
+     * Essa operação retorna a matriz contendo true, onde e permitido fazer o movimento
+     * Ultilizamos para colorir o fundo das posições possiveis.
+     * @param sourcePosition
+     * @return
+     */
     public boolean[][] possibleMoves(ChessPosition sourcePosition) {
-        // TODO
-        return null;
+        Position position=sourcePosition.toPosition();
+        validateSourcePosition(position);
+        return board.piece(position).possibleMoves();
     }
 
 
