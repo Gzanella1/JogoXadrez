@@ -16,21 +16,16 @@ public class Main {
         while (true){
             try {
 
-                // deveria limpara a tela
-               // UI.clearScreen();
-
-                // imprime o tabuleiro na tela
                 UI.printBoard(chessMatch.getPieces());
                 System.out.println();
-                System.out.println("posição origem : ");
+                System.out.print("Source: ");
                 ChessPosition source = UI.readChessPosition(in);
 
                 System.out.println();
-                System.out.println("posição target: ");
+                System.out.print("Target: ");
                 ChessPosition target = UI.readChessPosition(in);
 
                 ChessPieces capturedPiece = chessMatch.performChessMove(source, target);
-
 
             }
             catch (ChessException | InputMismatchException e){

@@ -73,10 +73,10 @@ public class UI {
 
     /**
      * Metodo responsavel por ler uma posição do tipo @{@link ChessPosition}
-     *
      * @param in
      * @return
      */
+
     public static ChessPosition readChessPosition(Scanner in) {
         // vamos ler a posição do tipo do xadrez exemplo: A1
         // ler a posição e separar a Linha que seria o 1 da coluna que seria "A"

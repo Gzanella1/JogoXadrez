@@ -17,14 +17,14 @@ public class Board {
     /**
      * Retorna uma peça de uma determinada linha e coluna passada por parametro.
      * @param row
-     * @param columns
+     * @param column
      * @return vai retornar a peça dada a uma linha/coluna
      */
-    public Piece piece(int row, int columns) {
-        if (!positionExists(row, columns)) {
+    public Piece piece(int row, int column) {
+        if (!positionExists(row, column)) {
             throw new BoardException("Essa posição não existe no tabuleiro.");
         }
-        return pieces[row][columns];
+        return pieces[row][column];
     }
 
     /**
@@ -68,12 +68,12 @@ public class Board {
         if (!positionExists(position)) {
             throw new BoardException("Essa posição não existe no tabuleiro.");
         }
-        if(piece(position) == null){
+        if (piece(position) == null) {
             return null;
         }
-        Piece auxiliar= piece(position);
-        auxiliar.position=null;
-        pieces[position.getRow()][position.getColumn()]=null;
+        Piece auxiliar = piece(position);
+        auxiliar.position = null;
+        pieces[position.getRow()][position.getColumn()] = null;
         return auxiliar;
     }
 
@@ -95,7 +95,7 @@ public class Board {
      */
     private boolean positionExists(int row, int column) {
         //condição completa para ver se existe uma posição
-        if (row >= 0 && row <= rows && column >= 0 && column < columns) {
+        if (row >= 0 && row < rows && column >= 0 && column < columns) {
             return true;
         }
         return false;
@@ -103,19 +103,14 @@ public class Board {
 
     /**
      * Verifica se existe uma peça, na posição passada no parametro.
-     *
      * @param position
      * @return boolean
      */
     public boolean thereIsAPiece(Position position) {
         if (!positionExists(position)) {
             throw new BoardException("Essa posição não existe no tabuleiro.");
-        } else {
-            if (piece(position) != null) {
-                return true;
-            }
-            return false;
         }
+        return piece(position) != null;
     }
 
     // =========================================================================================

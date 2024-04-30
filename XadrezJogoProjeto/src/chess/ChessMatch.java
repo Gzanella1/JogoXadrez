@@ -86,37 +86,11 @@ public class ChessMatch {
         return null;
     }
 
-    /**
-     * Executar movimento de xadrez
-     *
-     * @param sourcePosition (posição de origem)
-     * @param targetPosition (posição destinho)
-     * @return ChessPieces
-     */
-    public ChessPieces performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
-        Position source = sourcePosition.toPosition();
-        Position target = targetPosition.toPosition();
-        validateSourcePosition(source);
-        validateTargetPosition(source, target);
-        Piece capturedPiece = makeMove(source, target);
-        return (ChessPieces) capturedPiece;
-    }
 
 
 
-    /**
-     * Validar a posição de origem.
-     *
-     * @param position
-     */
-    private void validateSourcePosition(Position position) {
-        if (!board.thereIsAPiece(position)) {
-            throw new ChessException("Não existe peça na posição de origem.");
-        }
-        if (!board.piece(position).isThereAnyPossibleMove()) {
-            throw new ChessException("Não existe movimentos possiveis para a peça.");
-        }
-    }
+
+
 
 
     /**
@@ -133,9 +107,30 @@ public class ChessMatch {
     }
 
 
+
+
+    public ChessPieces replacePromotedPiece(String type) {
+        // TODO
+        return null;
+    }
+
+    /**
+     * Executar movimento de xadrez
+     *
+     * @param sourcePosition (posição de origem)
+     * @param targetPosition (posição destinho)
+     * @return ChessPieces
+     */
+    public ChessPieces performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+        Position source = sourcePosition.toPosition();
+        Position target = targetPosition.toPosition();
+        validateSourcePosition(source);
+        Piece capturedPiece = makeMove(source, target);
+        return (ChessPieces) capturedPiece;
+    }
+
     /**
      * A responsavel direta por fazer o movimento, onde possui a lógica de movimento
-     *
      * @param source
      * @param target
      * @return
@@ -147,10 +142,41 @@ public class ChessMatch {
         return capturedPiece;
     }
 
-    public ChessPieces replacePromotedPiece(String type) {
-        // TODO
-        return null;
+    /**
+     * Validar a posição de origem.
+     * @param position
+     */
+    private void validateSourcePosition(Position position) {
+        if (!board.thereIsAPiece(position)) {
+            throw new ChessException("Não existe peça na posição de origem.");
+        }
+        if (!board.piece(position).isThereAnyPossibleMove()) {
+            throw new ChessException("Não existe movimentos possiveis para a peça.");
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // ==================
     //  Getter e setter
