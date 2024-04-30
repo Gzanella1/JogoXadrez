@@ -11,7 +11,7 @@ public class King extends ChessPieces {
 
     @Override
     public String toString() {
-        return " \u2654 ";
+        return " K ";
     }
 
     @Override

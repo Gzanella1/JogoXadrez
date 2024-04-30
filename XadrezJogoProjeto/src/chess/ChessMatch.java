@@ -23,6 +23,19 @@ public class ChessMatch {
         initialSetup();
     }
 
+
+    public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+        // TODO
+        return null;
+    }
+
+
+    public ChessPieces replacePromotedPiece(String type) {
+        // TODO
+        return null;
+    }
+
+
     /**
      * Vai retornar uma matriz de peças de xadrez, corespondente a partida.
      * Vamos retornar um chessPeace, pois o programa so enchergará a chesspeace
@@ -42,6 +55,64 @@ public class ChessMatch {
         return matriz;
     }
 
+
+    /**
+     * Executar movimento de xadrez
+     *
+     * @param sourcePosition (posição de origem)
+     * @param targetPosition (posição destinho)
+     * @return ChessPieces
+     */
+    public ChessPieces performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+        Position source = sourcePosition.toPosition();
+        Position target = targetPosition.toPosition();
+        validateSourcePosition(source);
+        validateTargetPosition(source, target);
+        Piece capturedPiece = makeMove(source, target);
+        return (ChessPieces) capturedPiece;
+    }
+
+
+    /**
+     * A responsavel direta por fazer o movimento, onde possui a lógica de movimento
+     *
+     * @param source
+     * @param target
+     * @return
+     */
+    private Piece makeMove(Position source, Position target) {
+        Piece p = board.removePiece(source);
+        Piece capturedPiece = board.removePiece(target);
+        board.placePiece(p, target);
+        return capturedPiece;
+    }
+
+    /**
+     * Valida a posição de destino da peça.
+     *
+     * @param source
+     * @param target
+     */
+    private void validateTargetPosition(Position source, Position target) {
+        if (!board.piece(source).possibleMove(target)) {
+            throw new ChessException("Não é possivel fazer o movimento.");
+        }
+    }
+
+    /**
+     * Validar a posição de origem.
+     *
+     * @param position
+     */
+    private void validateSourcePosition(Position position) {
+        if (!board.thereIsAPiece(position)) {
+            throw new ChessException("Não existe peça na posição de origem.");
+        }
+        if (!board.piece(position).isThereAnyPossibleMove()) {
+            throw new ChessException("Não existe movimentos possiveis para a peça.");
+        }
+    }
+
     /**
      * Coloque uma peça
      * Vai receber as coordenadas do xadrez, converter em coordenada de matriz
@@ -53,6 +124,7 @@ public class ChessMatch {
     private void placeNewPiece(char column, int row, ChessPieces piece) {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
     }
+
 
     /**
      * Responsavel por iniciar a partida de xadrez, colocando as peças no tabuleiro;
@@ -81,76 +153,6 @@ public class ChessMatch {
         placeNewPiece('d', 8, new King(board, Color.PRETO));
     }
 
-    public boolean[][] possibleMoves(ChessPosition sourcePosition) {
-        // TODO
-        return null;
-    }
-
-    /**
-     * Executar movimento de xadrez
-     *
-     * @param sourcePosition (posição de origem)
-     * @param targetPosition (posição destinho)
-     * @return ChessPieces
-     */
-    public ChessPieces performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
-        Position source = sourcePosition.toPosition();
-        Position target = targetPosition.toPosition();
-        validateSourcePosition(source);
-        validateTargetPosition(source, target);
-        Piece capturedPiece = makeMove(source, target);
-        return (ChessPieces) capturedPiece;
-    }
-
-
-
-    /**
-     * Validar a posição de origem.
-     *
-     * @param position
-     */
-    private void validateSourcePosition(Position position) {
-        if (!board.thereIsAPiece(position)) {
-            throw new ChessException("Não existe peça na posição de origem.");
-        }
-        if (!board.piece(position).isThereAnyPossibleMove()) {
-            throw new ChessException("Não existe movimentos possiveis para a peça.");
-        }
-    }
-
-
-    /**
-     * Valida a posição de destino da peça.
-     * @param source
-     * @param target
-     */
-
-
-    private void validateTargetPosition(Position source, Position target) {
-        if (!board.piece(source).possibleMove(target)) {
-            throw new ChessException("Não é possivel fazer o movimento.");
-        }
-    }
-
-
-    /**
-     * A responsavel direta por fazer o movimento, onde possui a lógica de movimento
-     *
-     * @param source
-     * @param target
-     * @return
-     */
-    private Piece makeMove(Position source, Position target) {
-        Piece p = board.removePiece(source);
-        Piece capturedPiece = board.removePiece(target);
-        board.placePiece(p, target);
-        return capturedPiece;
-    }
-
-    public ChessPieces replacePromotedPiece(String type) {
-        // TODO
-        return null;
-    }
 
     // ==================
     //  Getter e setter
