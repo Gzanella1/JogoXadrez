@@ -6,6 +6,9 @@ import boardGame.Position;
 import chess.piecesType.Rook;
 import chess.piecesType.King;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChessMatch {
 
     // turno
@@ -16,12 +19,17 @@ public class ChessMatch {
     private boolean checkMate;
     private ChessPieces enPassantVulnearable;
     private ChessPieces promoted;
-
     private Board board;
+
+    private List<Piece> piecesOnTheBoard=new ArrayList<>();
+    private List<Piece> capturedPieces=new ArrayList<>();
+
+
+
 
     public ChessMatch() {
         this.board = new Board(8, 8);
-        turn =1;
+        turn = 1;
         currentPlayer = Color.BRANCO;
         initialSetup();
     }
@@ -29,11 +37,12 @@ public class ChessMatch {
     /**
      * Essa operação retorna a matriz contendo true, onde e permitido fazer o movimento
      * Ultilizamos para colorir o fundo das posições possiveis.
+     *
      * @param sourcePosition
      * @return
      */
     public boolean[][] possibleMoves(ChessPosition sourcePosition) {
-        Position position=sourcePosition.toPosition();
+        Position position = sourcePosition.toPosition();
         validateSourcePosition(position);
         return board.piece(position).possibleMoves();
     }
@@ -76,8 +85,10 @@ public class ChessMatch {
     public ChessPieces performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
+
         validateSourcePosition(source);
         validateTargetPosition(source, target);
+
         Piece capturedPiece = makeMove(source, target);
         nextTurn();
         return (ChessPieces) capturedPiece;
@@ -85,17 +96,29 @@ public class ChessMatch {
 
 
     /**
-     * A responsavel direta por fazer o movimento, onde possui a lógica de movimento
+     * A responsavel direta por fazer o movimento, onde possui a lógica de movimento, e captura a peça do tabuleiro
+     *
+     * removemos a peça "p" na posição source
+     * caso tenha alguma peça na posição target, fazemos a captura da peça
+     * colocamos a peça "p" na posição target, e retornamos caso tenha alguma peça que foi capturada
      *
      * @param source
      * @param target
-     * @return
+     * @return capturedPiece
      */
     private Piece makeMove(Position source, Position target) {
+        //tira a peça de origem do tabuleiro
         Piece p = board.removePiece(source);
+        // tira uma POSSIVEL PESSA que está na posição de destino
         Piece capturedPiece = board.removePiece(target);
+        // coloca na posição do destino a peça que esta na origem
         board.placePiece(p, target);
-        return capturedPiece;
+
+        if (capturedPiece != null) {
+            piecesOnTheBoard.remove(capturedPiece);
+            capturedPieces.add(capturedPiece);
+        }
+        return  capturedPiece;
     }
 
     /**
@@ -120,7 +143,7 @@ public class ChessMatch {
             throw new ChessException("Não existe peça na posição de origem.");
         }
         //verifica se a cor da peça é diferente da cor do usuario atual
-        if(getCurrentPlayer() != ((ChessPieces)getBoard().piece(position)).getColor() ){
+        if (getCurrentPlayer() != ((ChessPieces) getBoard().piece(position)).getColor()) {
             throw new ChessException("A peça escolhida não e sua.");
         }
         if (!board.piece(position).isThereAnyPossibleMove()) {
@@ -129,7 +152,7 @@ public class ChessMatch {
     }
 
     /**
-     * Coloque uma peça
+     * Coloque uma peça no tabuleiro
      * Vai receber as coordenadas do xadrez, converter em coordenada de matriz
      *
      * @param column
@@ -138,6 +161,7 @@ public class ChessMatch {
      */
     private void placeNewPiece(char column, int row, ChessPieces piece) {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        piecesOnTheBoard.add(piece);
     }
 
 
@@ -145,9 +169,9 @@ public class ChessMatch {
      * Responsavel por trocar o turno das jogadas.
      * ex: o jogador das peças branco jogou agora é a vez das peças pretas.
      */
-    private void nextTurn(){
+    private void nextTurn() {
         turn++;
-        currentPlayer= (currentPlayer== Color.BRANCO)? Color.PRETO : Color.BRANCO;
+        currentPlayer = (currentPlayer == Color.BRANCO) ? Color.PRETO : Color.BRANCO;
     }
 
 
