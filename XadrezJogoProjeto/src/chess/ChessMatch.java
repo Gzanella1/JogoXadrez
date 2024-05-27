@@ -6,10 +6,11 @@ import boardGame.Position;
 import chess.piecesType.Rook;
 import chess.piecesType.King;
 
-
 public class ChessMatch {
 
+    // turno
     private int turn;
+    // jogador atual
     private Color currentPlayer;
     private boolean check;
     private boolean checkMate;
@@ -20,9 +21,10 @@ public class ChessMatch {
 
     public ChessMatch() {
         this.board = new Board(8, 8);
+        turn =1;
+        currentPlayer = Color.BRANCO;
         initialSetup();
     }
-
 
     /**
      * Essa operação retorna a matriz contendo true, onde e permitido fazer o movimento
@@ -64,7 +66,8 @@ public class ChessMatch {
 
 
     /**
-     * Executar movimento de xadrez
+     * Executar movimento de xadrez, recece as posições de origem e destino, chama os metodo que faz
+     * as verificações das posições.
      *
      * @param sourcePosition (posição de origem)
      * @param targetPosition (posição destinho)
@@ -76,6 +79,7 @@ public class ChessMatch {
         validateSourcePosition(source);
         validateTargetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
+        nextTurn();
         return (ChessPieces) capturedPiece;
     }
 
@@ -115,6 +119,10 @@ public class ChessMatch {
         if (!board.thereIsAPiece(position)) {
             throw new ChessException("Não existe peça na posição de origem.");
         }
+        //verifica se a cor da peça é diferente da cor do usuario atual
+        if(getCurrentPlayer() != ((ChessPieces)getBoard().piece(position)).getColor() ){
+            throw new ChessException("A peça escolhida não e sua.");
+        }
         if (!board.piece(position).isThereAnyPossibleMove()) {
             throw new ChessException("Não existe movimentos possiveis para a peça.");
         }
@@ -130,6 +138,16 @@ public class ChessMatch {
      */
     private void placeNewPiece(char column, int row, ChessPieces piece) {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
+    }
+
+
+    /**
+     * Responsavel por trocar o turno das jogadas.
+     * ex: o jogador das peças branco jogou agora é a vez das peças pretas.
+     */
+    private void nextTurn(){
+        turn++;
+        currentPlayer= (currentPlayer== Color.BRANCO)? Color.PRETO : Color.BRANCO;
     }
 
 
@@ -169,16 +187,8 @@ public class ChessMatch {
         return turn;
     }
 
-    public void setTurn(int turn) {
-        this.turn = turn;
-    }
-
     public Color getCurrentPlayer() {
         return currentPlayer;
-    }
-
-    public void setCurrentPlayer(Color currentPlayer) {
-        this.currentPlayer = currentPlayer;
     }
 
     public boolean isCheck() {

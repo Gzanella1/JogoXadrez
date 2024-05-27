@@ -1,5 +1,6 @@
 package application;
 
+import chess.ChessMatch;
 import chess.ChessPieces;
 import chess.ChessPosition;
 import chess.Color;
@@ -53,6 +54,13 @@ public class UI {
         System.out.println("     a   b   c   d   e   f   g   h");
     }
 
+    public static void printMatch(ChessMatch chessMatch){
+        printBoard(chessMatch.getPieces());
+        System.out.println();
+        System.out.println("Turn : "+chessMatch.getTurn());
+        System.out.println("Esperando o jogador : "+chessMatch.getCurrentPlayer());
+    }
+
     /**
      * Essa impressão do tabuleiro, marca as posições que são possiveis.
      * Imprime o tabuleiro considerando os movimentos possiveis
@@ -83,7 +91,7 @@ public class UI {
         }
         else {
             if (piece.getColor() == Color.BRANCO) {
-                System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+                System.out.print(ANSI_CYAN + piece + ANSI_RESET);
             }
             else {
                 System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
@@ -116,13 +124,20 @@ public class UI {
             final String os = System.getProperty("os.name");
             if (os.contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
             } else {
                 Runtime.getRuntime().exec("clear");
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
             }
         } catch (final Exception e) {
             System.out.println("Erro ao limpar o console: " + e.getMessage());
         }
     }
+
+
+
 }
 
 
