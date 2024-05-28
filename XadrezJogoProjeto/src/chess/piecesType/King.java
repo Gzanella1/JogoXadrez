@@ -57,7 +57,6 @@ public class King extends ChessPieces {
     private boolean podeMover(Position position) {
         ChessPieces p = (ChessPieces) getBoard().piece(position);
         return p == null || p.getColor() != getColor();
-
     }
 
 }

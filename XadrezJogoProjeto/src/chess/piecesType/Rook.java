@@ -44,16 +44,6 @@ public class Rook extends ChessPieces {
         return mat;
     }
 
-//        p.setValues(position.getRow() - 1, position.getColumn());
-//        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
-//        mat[p.getRow()][p.getColumn()] = true;
-//        p.setRow(p.getRow() - 1);
-//    }
-//        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
-//        mat[p.getRow()][p.getColumn()] = true;
-//    }
-
-
 
     private void checkDirection(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
         // p.setValues(position.getRow() - 1, position.getColumn());

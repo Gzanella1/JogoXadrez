@@ -10,7 +10,6 @@ public abstract class Piece {
         position = null;
     }
 
-
     /**
      * Metodo abstrato utilizado para pegar o movimento possivel de todas as peças.
      * @return

@@ -19,7 +19,7 @@ public class Main {
 
         while (true){
             try {
-                UI.clearScreen();
+                //UI.clearScreen();
                 System.out.flush();
 
                 UI.printMatch(chessMatch, captured);

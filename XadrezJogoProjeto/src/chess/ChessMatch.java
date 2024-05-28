@@ -5,9 +5,11 @@ import boardGame.Piece;
 import boardGame.Position;
 import chess.piecesType.Rook;
 import chess.piecesType.King;
+import piecesType.Pawn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChessMatch {
 
@@ -21,11 +23,8 @@ public class ChessMatch {
     private ChessPieces promoted;
     private Board board;
 
-    private List<Piece> piecesOnTheBoard=new ArrayList<>();
-    private List<Piece> capturedPieces=new ArrayList<>();
-
-
-
+    private List<Piece> piecesOnTheBoard = new ArrayList<>();
+    private List<Piece> capturedPieces = new ArrayList<>();
 
     public ChessMatch() {
         this.board = new Board(8, 8);
@@ -52,6 +51,52 @@ public class ChessMatch {
         // TODO
         return null;
     }
+
+    /**
+     * Retorna o oponente da peça.
+     *
+     * @param color
+     * @return
+     */
+    private Color opponent(Color color) {
+        return (color == Color.BRANCO) ? Color.PRETO : Color.BRANCO;
+    }
+
+    /**
+     * Ele localiza o rei de uma determinada cor.
+     *
+     * @param cor
+     * @return
+     */
+    private ChessPieces king(Color cor) {
+        //procurar na lista de peças em jogo qual é o rei da cor
+        List<Piece> list = piecesOnTheBoard.stream().filter(piece -> ((ChessPieces) piece).getColor() == cor).toList();
+        for (Piece p : list) {
+            if (p instanceof King) {
+                return (ChessPieces) p;
+            }
+        }
+        throw new IllegalStateException("não existe o king da cor " + cor);
+    }
+
+    private boolean testCheck(Color cor) {
+        //pega a posição do rei em formato de matriz
+        Position kingPosition = king(cor).getChessPosition().toPosition();
+        List<Piece> opponentePieces = piecesOnTheBoard.stream().filter(piece -> ((ChessPieces) piece).getColor() == opponent(cor)).toList();
+
+        for (Piece p : opponentePieces) {
+//            boolean[][] matComMovPossiveis= p.possibleMoves();
+//             if(matComMovPossiveis[kingPosition.getRow()][kingPosition.getColumn()]){
+//                return  true;
+//             }
+            if (p.possibleMove(kingPosition)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 
     /**
@@ -90,6 +135,16 @@ public class ChessMatch {
         validateTargetPosition(source, target);
 
         Piece capturedPiece = makeMove(source, target);
+
+        // se o mov que o usuario fez o colocou em check
+        // desfazer agente desfaz o movimento
+        if(testCheck(currentPlayer)){
+            undoMove(source,target,capturedPiece);
+            throw new ChessException("Você não pode se colocar em check");
+        }
+        check = testCheck(opponent(currentPlayer));
+        // check = (testCheck(opponent(currentPlayer)))?true :false;
+
         nextTurn();
         return (ChessPieces) capturedPiece;
     }
@@ -97,7 +152,7 @@ public class ChessMatch {
 
     /**
      * A responsavel direta por fazer o movimento, onde possui a lógica de movimento, e captura a peça do tabuleiro
-     *
+     * <p>
      * removemos a peça "p" na posição source
      * caso tenha alguma peça na posição target, fazemos a captura da peça
      * colocamos a peça "p" na posição target, e retornamos caso tenha alguma peça que foi capturada
@@ -118,8 +173,32 @@ public class ChessMatch {
             piecesOnTheBoard.remove(capturedPiece);
             capturedPieces.add(capturedPiece);
         }
-        return  capturedPiece;
+        return capturedPiece;
     }
+
+    /**
+     * Metodo responsavel por desfazer o movimento que o metodo makeMove faz.
+     *
+     * @param source
+     * @param target
+     * @param capturedPiece
+     */
+
+    private void undoMove(Position source, Position target, Piece capturedPiece) {
+        // tirar a peça do destino
+        Piece peca = board.removePiece(target);
+        // colocar essa peça na origem
+        board.placePiece(peca, source);
+
+        if (capturedPiece != null) {
+            //colocar a peça na posição do tabuleiro
+            board.placePiece(capturedPiece, target);
+            piecesOnTheBoard.add(peca);
+            capturedPieces.remove(peca);
+
+        }
+    }
+
 
     /**
      * Valida a posição de destino da peça.
@@ -193,6 +272,8 @@ public class ChessMatch {
         placeNewPiece('e', 2, new Rook(board, Color.BRANCO));
         placeNewPiece('e', 1, new Rook(board, Color.BRANCO));
         placeNewPiece('d', 1, new King(board, Color.BRANCO));
+        placeNewPiece('f', 2, new Pawn(board, Color.BRANCO));
+
 
         placeNewPiece('c', 7, new Rook(board, Color.PRETO));
         placeNewPiece('c', 8, new Rook(board, Color.PRETO));
@@ -215,7 +296,7 @@ public class ChessMatch {
         return currentPlayer;
     }
 
-    public boolean isCheck() {
+    public boolean getCheck() {
         return check;
     }
 
