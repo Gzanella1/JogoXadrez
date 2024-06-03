@@ -7,13 +7,13 @@ import chess.Color;
 
 public class Pawn extends ChessPieces {
 
+    public Pawn(Board board, Color color) {
+        super(board, color);
+    }
+
     @Override
     public String toString() {
         return " P ";
-    }
-
-    public Pawn(Board board, Color color) {
-        super(board, color);
     }
 
     @Override
@@ -52,8 +52,6 @@ public class Pawn extends ChessPieces {
         return matrizAux;
     }
 
-
-
     private void checkDirection(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
         // atualizar a posição da peça linha/coluna
         posicaoAux.setValues(getPosition().getRow()+linhaDirecao,getPosition().getColumn()+colunaDirecao);
@@ -64,29 +62,6 @@ public class Pawn extends ChessPieces {
             mat[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
         }
     }
+
 }
 
-
-/*
-        ChessPieces chessPieces;
-
-        if (getColor() == Color.BRANCO) {
-            if(getPosition().getRow() == 6){
-                //para os caso onde não tem peça na diagonal
-                checkDirection(posicaoAux,matrizAux,-2,0);
-                checkDirection(posicaoAux,matrizAux,-1,0);
-
-                //para o caso onde tenha peça na diagonal
-                checkDirection(posicaoAux,matrizAux,-1,+1);
-                checkDirection(posicaoAux,matrizAux,-1,-1);
-
-
-            }
-            else{
-                checkDirection(posicaoAux,matrizAux,-1,0);
-            }
-
-        } else {
-
-        }
-*/

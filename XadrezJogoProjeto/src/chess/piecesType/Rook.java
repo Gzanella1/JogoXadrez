@@ -6,8 +6,8 @@ import chess.ChessPieces;
 import chess.Color;
 
 public class Rook extends ChessPieces {
-    public Rook(Board board, Color color ) {
-        super(board, color );
+    public Rook(Board board, Color color) {
+        super(board, color);
     }
 
     @Override
@@ -18,9 +18,9 @@ public class Rook extends ChessPieces {
 
     /**
      * Metodo sobreecrito para verificar os possiveis movimento da torre.
+     *
      * @return boolean[][]
      */
-
     @Override
     public boolean[][] possibleMoves() {
         // Matriz está com todas as posições contendo falso
@@ -44,7 +44,6 @@ public class Rook extends ChessPieces {
         return mat;
     }
 
-
     private void checkDirection(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
         // p.setValues(position.getRow() - 1, position.getColumn());
         posicaoAux.setValues(position.getRow() + linhaDirecao, position.getColumn() + colunaDirecao);
@@ -59,60 +58,4 @@ public class Rook extends ChessPieces {
         }
     }
 
-
 }
-
-// codigo mesma função que o codigo acima porem muita coisa repetida
-
-/*
-*
-* @Override
-    public boolean[][] possibleMoves() {
-
-        boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
-
-        Position p = new Position(0, 0);
-
-        // verificar ACIMA da peça (linha) ----------------
-        p.setValues(position.getRow() - 1, position.getColumn());
-        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-            p.setRow(p.getRow() - 1);
-        }
-        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-        }
-
-        // verifica o lado da peça (esquerda) ----------------
-        p.setValues(position.getRow(), position.getColumn() - 1);
-        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-            p.setColumn(p.getColumn() - 1);
-        }
-        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-        }
-
-        // verifica o lado da peça (direita) ----------------
-        p.setValues(position.getRow(), position.getColumn() + 1);
-        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-            p.setColumn(p.getColumn() + 1);
-        }
-        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-        }
-
-        // verificar ABAIXO da peça (linha) ----------------
-        p.setValues(position.getRow() + 1, position.getColumn());
-        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-            p.setRow(p.getRow() + 1);
-        }
-        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
-            mat[p.getRow()][p.getColumn()] = true;
-        }
-
-
-        return mat;
-    }*/

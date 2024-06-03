@@ -8,6 +8,11 @@ public  abstract class ChessPieces extends Piece{
     private Color color;
     private int moveCount;
 
+
+    /**
+     * Pega a posiçãoJogo ou seja no formato do xadrez A1 etc..;
+     * @return ChessPosition
+     */
     public ChessPosition getChessPosition(){
         return ChessPosition.fromPosition(position);
     }

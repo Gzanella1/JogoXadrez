@@ -50,28 +50,36 @@ public class UI {
             System.out.print((8 - i) + " | ");
             //Print da coluna
             for (int j = 0; j < pieces[i].length; j++) {
-                printPiece(pieces[i][j],false);
+                printPiece(pieces[i][j], false);
             }
             System.out.println();
         }
         System.out.println("     a   b   c   d   e   f   g   h");
     }
 
-    public static void printMatch(ChessMatch chessMatch, List<ChessPieces> captured){
+    public static void printMatch(ChessMatch chessMatch, List<ChessPieces> captured) {
         printBoard(chessMatch.getPieces());
         System.out.println();
         printCapturedPieces(captured);
         System.out.println();
-        System.out.println("Turn : "+chessMatch.getTurn());
-        System.out.println("Esperando o jogador : "+chessMatch.getCurrentPlayer());
-        if(chessMatch.getCheck()){
-            System.out.println(ANSI_RED+"CHECK!"+ANSI_RESET);
+        if(!chessMatch.getCheckMate()){
+            System.out.println("Turn : " + chessMatch.getTurn());
+            System.out.println("Esperando o jogador : " + chessMatch.getCurrentPlayer());
+            if (chessMatch.getCheck()) {
+                System.out.println(ANSI_RED + "CHECK!" + ANSI_RESET);
+            }
+        }else{
+            System.out.println(ANSI_RED + "CHECKMATE se fodeu!" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "Vencedor:"+ chessMatch.getCurrentPlayer() + ANSI_RESET);
         }
+
+
     }
 
     /**
      * Essa impressão do tabuleiro, marca as posições que são possiveis.
      * Imprime o tabuleiro considerando os movimentos possiveis
+     *
      * @param pieces
      * @param possibleMoves
      */
@@ -88,6 +96,7 @@ public class UI {
 
     /**
      * Responsavel por imprimir uma peça.
+     *
      * @param piece
      */
     private static void printPiece(ChessPieces piece, boolean background) {
@@ -96,12 +105,10 @@ public class UI {
         }
         if (piece == null) {
             System.out.print(" - " + ANSI_RESET);
-        }
-        else {
+        } else {
             if (piece.getColor() == Color.BRANCO) {
                 System.out.print(ANSI_CYAN + piece + ANSI_RESET);
-            }
-            else {
+            } else {
                 System.out.print(ANSI_YELLOW + piece + ANSI_RESET);
             }
         }
@@ -110,6 +117,7 @@ public class UI {
 
     /**
      * Metodo responsavel por ler uma posição do tipo @{@link ChessPosition}
+     *
      * @param in
      * @return
      */
@@ -145,18 +153,19 @@ public class UI {
     }
 
 
-    private static void printCapturedPieces(List<ChessPieces> captured){
+    private static void printCapturedPieces(List<ChessPieces> captured) {
         List<ChessPieces> white = captured.stream().filter(x -> x.getColor() == Color.BRANCO).collect(Collectors.toList());
         List<ChessPieces> black = captured.stream().filter(x -> x.getColor() == Color.PRETO).collect(Collectors.toList());
 
         System.out.println("Captured pieces: ");
         System.out.print("White: ");
-        System.out.println(ANSI_CYAN + Arrays.toString(white.toArray())+ ANSI_RESET);
+        System.out.println(ANSI_CYAN + Arrays.toString(white.toArray()) + ANSI_RESET);
 
         System.out.print("Black: ");
-        System.out.println(ANSI_YELLOW + Arrays.toString(black.toArray())+ ANSI_RESET);
+        System.out.println(ANSI_YELLOW + Arrays.toString(black.toArray()) + ANSI_RESET);
 
     }
+
 
 
 }

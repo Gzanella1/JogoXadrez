@@ -16,6 +16,7 @@ public class Board {
 
     /**
      * Retorna uma peça de uma determinada linha e coluna passada por parametro.
+     *
      * @param row
      * @param column
      * @return vai retornar a peça dada a uma linha/coluna
@@ -61,6 +62,7 @@ public class Board {
 
     /**
      * Vai remover uma peça na posição
+     *
      * @param position
      * @return
      */
@@ -79,6 +81,7 @@ public class Board {
 
     /**
      * Metodo que recebe uma posição e retorna true se essa posição existe.
+     *
      * @param position
      * @return boolean
      */
@@ -89,6 +92,7 @@ public class Board {
     /**
      * Metodo criado como uma segunda alternativa para verificar se existe uma posição.
      * Em determinado momento será mais facil fazer a verificação pela linha e pela coluna.
+     *
      * @param row
      * @param column
      * @return boolean
@@ -103,6 +107,7 @@ public class Board {
 
     /**
      * Verifica se existe uma peça, na posição passada no parametro.
+     *
      * @param position
      * @return boolean
      */

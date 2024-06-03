@@ -11,6 +11,7 @@ public class Position {
 
     /**
      * Método responsavel por atualizar os valores de uma posição.
+     *
      * @param row
      * @param column
      */
@@ -22,7 +23,7 @@ public class Position {
     @Override
     public String toString() {
         //imprime a posição
-        return "row=" + row + ", column=" + column ;
+        return "row=" + row + ", column=" + column;
     }
 
     // ======================
@@ -32,12 +33,15 @@ public class Position {
     public int getRow() {
         return row;
     }
+
     public void setRow(int row) {
         this.row = row;
     }
+
     public int getColumn() {
         return column;
     }
+
     public void setColumn(int column) {
         this.column = column;
     }
