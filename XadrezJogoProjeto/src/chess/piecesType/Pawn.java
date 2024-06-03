@@ -24,22 +24,7 @@ public class Pawn extends ChessPieces {
 
         if (getColor() == Color.BRANCO) {
 
-            // atualizando a posição acima
-            posicaoAux.setValues(position.getRow() - 1, position.getColumn());
-            // posição existe no tabuleiro e não existe peça do oponente
-            if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux)) {
-                matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
-            }
-            // atualizando duas posições acima,
-            posicaoAux.setValues(position.getRow() - 2, position.getColumn());
-            // Cria uma nova posição acima
-            Position p2 = new Position(position.getRow() - 1, position.getColumn());
-            // a posição do tabuleiro existe, e não tem uma peça no posição do tabule e
-            if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux) &&
-                    // a nova posição existe e não tem peça nessa posição e
-                    getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) && getMoveCount() == 0) {
-                matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
-            }
+
             posicaoAux.setValues(position.getRow() - 1, position.getColumn() - 1);
             if (getBoard().positionExists(posicaoAux) && isThereOpponentPiece(posicaoAux)) {
                 matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
@@ -52,15 +37,41 @@ public class Pawn extends ChessPieces {
         return matrizAux;
     }
 
-    private void checkDirection(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
-        // atualizar a posição da peça linha/coluna
-        posicaoAux.setValues(getPosition().getRow()+linhaDirecao,getPosition().getColumn()+colunaDirecao);
 
-        if(getBoard().positionExists(posicaoAux) && !isThereOpponentPiece(posicaoAux)){
+    private void chceckMove(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
+        //atualizar posição
+        posicaoAux.setValues(getPosition().getRow() + linhaDirecao, getPosition().getColumn() + colunaDirecao);
+
+        // para ir para cima/posição autalizasda, verificar se a posição existe e se não tem oponente
+        if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux)) {
             mat[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
-        }else  if (getBoard().positionExists(posicaoAux) && isThereOpponentPiece(posicaoAux) &&  getMoveCount() == 0) {
-            mat[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
+
         }
+    }
+
+    private void checkDupleMove(Position posicaoAux, boolean[][] matrizAux, int linhaDirecao, int colunaDirecao) {
+        posicaoAux.setValues(position.getRow() + linhaDirecao, position.getColumn());
+        Position p2 = new Position(position.getRow() + linhaDirecao, position.getColumn());
+
+        // existe a posição
+        boolean condicao1 = getBoard().positionExists(posicaoAux);
+        // não existe peça na posição
+        boolean condicao2 = !getBoard().thereIsAPiece(posicaoAux);
+        // existe a posição pd
+        boolean condicao3 = getBoard().positionExists(p2);
+
+        boolean condicao4 = !getBoard().thereIsAPiece(p2);
+        boolean condicao5 = getMoveCount() == 0;
+
+        if (condicao1 && condicao2 && condicao3 && condicao4 && condicao5) {
+            matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
+        }
+    }
+
+
+    private void checkEnPassant(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
+        //atualizar posição
+        posicaoAux.setValues(getPosition().getRow() + linhaDirecao, getPosition().getColumn() + colunaDirecao);
     }
 
 }

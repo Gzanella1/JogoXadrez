@@ -51,8 +51,16 @@ public class ChessMatch {
         placeNewPiece('d', 1, new Rook(board, Color.BRANCO));
         placeNewPiece('e', 1, new King(board, Color.BRANCO));
 
+        placeNewPiece('a' ,2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('a' ,3, new Pawn(board, Color.PRETO));
+
+        placeNewPiece('b' ,2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('c' ,2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('d' ,2, new Pawn(board, Color.BRANCO));
+
         placeNewPiece('b', 8, new Rook(board, Color.PRETO));
         placeNewPiece('a', 8, new King(board, Color.PRETO));
+
     }
 
     /**
@@ -150,6 +158,8 @@ public class ChessMatch {
     private Piece makeMove(Position source, Position target) {
         //tira a peça de origem do tabuleiro
         Piece p = board.removePiece(source);
+
+        ((ChessPieces)p).increaseMove();
         // tira uma POSSIVEL PESSA que está na posição de destino
         Piece capturedPiece = board.removePiece(target);
         // coloca na posição do destino a peça que esta na origem
@@ -172,6 +182,7 @@ public class ChessMatch {
     private void undoMove(Position source, Position target, Piece capturedPiece) {
         // tirar a peça do destino
         Piece peca = board.removePiece(target);
+        ((ChessPieces)peca).decreaseMove();
         // colocar essa peça na origem
         board.placePiece(peca, source);
 
@@ -265,6 +276,9 @@ public class ChessMatch {
      */
     private boolean testCheck(Color cor) {
         //pega a posição do rei em formato de matriz
+        //Obter a posição do rei
+        //Obter peças do oponente
+        //Verificar ameaças ao rei
         Position kingPosition = king(cor).getChessPosition().toPosition();
         List<Piece> opponentePieces = piecesOnTheBoard.stream().filter(
                 piece -> ((ChessPieces) piece).getColor() == opponent(cor)).toList();
@@ -274,6 +288,7 @@ public class ChessMatch {
 //             if(matComMovPossiveis[kingPosition.getRow()][kingPosition.getColumn()]){
 //                return  true;
 //             }
+            //se a peça pode mover para a posição onde o rei esta então check
             if (p.possibleMove(kingPosition)) {
                 return true;
             }

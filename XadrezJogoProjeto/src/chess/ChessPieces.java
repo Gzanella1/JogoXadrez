@@ -20,7 +20,6 @@ public  abstract class ChessPieces extends Piece{
     public ChessPieces(Board board, Color color) {
         super(board);
         this.color = color;
-        //this.moveCount = moveCount;
     }
 
     /**
@@ -32,11 +31,19 @@ public  abstract class ChessPieces extends Piece{
         ChessPieces p = (ChessPieces) getBoard().piece(position);
         return p != null && p.getColor() != color;
     }
+
+    /**
+     * incrementa o atrivuto moveCaunt
+     */
     protected void increaseMove(){
-        // TODO aumentar movimento
+        setMoveCount(+1);
     }
+
+    /**
+     * decrementa o atrivuto moveCaunt
+     */
     protected void decreaseMove(){
-        // TODO diminuir Mover
+        setMoveCount(-1);
     }
 
     // ==================
