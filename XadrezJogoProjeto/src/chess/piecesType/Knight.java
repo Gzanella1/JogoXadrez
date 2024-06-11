@@ -1,12 +1,9 @@
-package piecesType;
+package chess.piecesType;
 
 import boardGame.Board;
-import boardGame.Piece;
 import boardGame.Position;
 import chess.ChessPieces;
 import chess.Color;
-
-import java.util.List;
 
 public class Knight extends ChessPieces {
     public Knight(Board board, Color color) {
@@ -14,64 +11,50 @@ public class Knight extends ChessPieces {
     }
 
     @Override
-    public boolean[][] possibleMoves() {
-        return new boolean[0][];
+    public String toString() {
+        // Letra responstavel por representar a cavalo no tabuleiro
+        return " C ";
     }
+
+    /**
+     * Metodo sobreecrito para verificar os possiveis movimento da torre.
+     *
+     * @return boolean[][]
+     */
+    @Override
+    public boolean[][] possibleMoves() {
+        // Matriz está com todas as posições contendo falso
+        boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+
+        // Posição auxiliar, para ter um valor inicial, por onde vai começar no caso
+        Position posicaoAux = new Position(0, 0);
+
+        // Acima
+        checkDirection(posicaoAux, mat, -2, 1);
+        checkDirection(posicaoAux, mat, -2, -1);
+
+        checkDirection(posicaoAux, mat, -1, -2);
+        checkDirection(posicaoAux, mat, +1, -2);
+
+        checkDirection(posicaoAux, mat, -1, +2);
+        checkDirection(posicaoAux, mat, +1, +2);
+
+        checkDirection(posicaoAux, mat, +2, 1);
+        checkDirection(posicaoAux, mat, +2, -1);
+
+
+        return mat;
+    }
+
+    private void checkDirection(Position posicaoAux, boolean[][] matrizAux, int linhaDirecao, int colunaDirecao) {
+        posicaoAux.setValues(getPosition().getRow() + linhaDirecao, getPosition().getColumn() + colunaDirecao);
+
+        if (getBoard().positionExists(posicaoAux) && (isThereOpponentPiece(posicaoAux) || !getBoard().thereIsAPiece(posicaoAux) )) {
+            matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
+        }
+    }
+
 
 }
 
 
-//
-//@Override
-//public boolean[][] possibleMoves() {
-//    boolean[][] matrizAux = new boolean[getBoard().getRows()][getBoard().getColumns()];
-//    Position posicaoAux = new Position(0, 0);
-//
-//    if (getColor() == Color.BRANCO) {
-//        // Mover para cima
-//        checkMove(position.getRow() - 1, position.getColumn(), matrizAux);
-//        // Mover duas casas acima
-//        checkDoubleMove(position.getRow() - 2, position.getColumn(), matrizAux);
-//        // Capturar à esquerda
-//        checkCaptureMove(posicaoAux, matrizAux, -1, -1);
-//        // Capturar à direita
-//        checkCaptureMove(posicaoAux, matrizAux, -1, +1);
-//    }else{
-//        // Mover para baixo
-//        checkMove(position.getRow() + 1, position.getColumn(), matrizAux);
-//        // Mover duas casas abaixo
-//        checkDoubleMove(position.getRow() + 2, position.getColumn(), matrizAux);
-//        // Capturar à esquerda
-//        checkCaptureMove(posicaoAux, matrizAux, +1, -1);
-//        // Capturar à direita
-//        checkCaptureMove(posicaoAux, matrizAux, +1, +1);
-//
-//    }
-//    return matrizAux;
-//}
-//
-//
-//private void checkCaptureMove(Position posicaoAux, boolean[][] matrizAux,  int row, int column) {
-//    posicaoAux.setValues(position.getRow() + row, position.getColumn() + column);
-//
-//    if (getBoard().positionExists(posicaoAux) && isThereOpponentPiece(posicaoAux)) {
-//        matrizAux[row][column] = true;
-//    }
-//}
-//
-//
-//private void checkMove(int row, int column, boolean[][] matrizAux) {
-//    Position posicaoAux = new Position(row, column);
-//    if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux)) {
-//        matrizAux[row][column] = true;
-//    }
-//}
-//
-//private void checkDoubleMove(int row, int column, boolean[][] matrizAux) {
-//    Position posicaoAux = new Position(row, column);
-//    Position p2 = new Position(position.getRow() - 1, position.getColumn());
-//    if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux) &&
-//            getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) && getMoveCount() == 0) {
-//        matrizAux[row][column] = true;
-//    }
-//}

@@ -13,7 +13,7 @@ public class Rook extends ChessPieces {
     @Override
     public String toString() {
         // Letra responstavel por representar a TORRE no tabuleiro
-        return " R ";
+        return " T ";
     }
 
     /**

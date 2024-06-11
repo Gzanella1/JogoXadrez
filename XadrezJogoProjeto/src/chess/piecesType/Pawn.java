@@ -1,4 +1,4 @@
-package piecesType;
+package chess.piecesType;
 
 import boardGame.Board;
 import boardGame.Position;
@@ -7,72 +7,90 @@ import chess.Color;
 
 public class Pawn extends ChessPieces {
 
-    public Pawn(Board board, Color color) {
-        super(board, color);
-    }
 
     @Override
     public String toString() {
         return " P ";
     }
 
+    public Pawn(Board board, Color color) {
+        super(board, color);
+    }
+
     @Override
     public boolean[][] possibleMoves() {
-        boolean[][] matrizAux = new boolean[getBoard().getRows()][getBoard().getColumns()];
+        boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
         Position posicaoAux = new Position(0, 0);
 
-
         if (getColor() == Color.BRANCO) {
+            checkMove(posicaoAux, mat, -1, 0);
 
+            checkDoubleMove(mat, posicaoAux, -2, 0, -1, 0);
 
-            posicaoAux.setValues(position.getRow() - 1, position.getColumn() - 1);
-            if (getBoard().positionExists(posicaoAux) && isThereOpponentPiece(posicaoAux)) {
-                matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
-            }
-            posicaoAux.setValues(position.getRow() - 1, position.getColumn() + 1);
-            if (getBoard().positionExists(posicaoAux) && isThereOpponentPiece(posicaoAux)) {
-                matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
-            }
+            checkOponentMove(posicaoAux, mat, -1, -1);
+            checkOponentMove(posicaoAux, mat, -1, +1);
+        } else {
+            checkMove(posicaoAux, mat, 1, 0);
+            checkDoubleMove(mat, posicaoAux, 2, 0, 1, 0);
+            checkOponentMove(posicaoAux, mat, 1, -1);
+            checkOponentMove(posicaoAux, mat, 1, 1);
         }
-        return matrizAux;
+
+        return mat;
     }
 
-
-    private void chceckMove(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
-        //atualizar posição
-        posicaoAux.setValues(getPosition().getRow() + linhaDirecao, getPosition().getColumn() + colunaDirecao);
-
-        // para ir para cima/posição autalizasda, verificar se a posição existe e se não tem oponente
+    /**
+     *  Verifica se um movimento simples (para frente) é possível.
+     * @param matrizAux
+     * @param posicaoAux
+     * @param linha
+     * @param coluna
+     */
+    private void checkMove(Position posicaoAux,boolean[][] matrizAux, int linha, int coluna) {
+        posicaoAux.setValues(position.getRow() + linha, position.getColumn() + coluna);
         if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux)) {
-            mat[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
-
-        }
-    }
-
-    private void checkDupleMove(Position posicaoAux, boolean[][] matrizAux, int linhaDirecao, int colunaDirecao) {
-        posicaoAux.setValues(position.getRow() + linhaDirecao, position.getColumn());
-        Position p2 = new Position(position.getRow() + linhaDirecao, position.getColumn());
-
-        // existe a posição
-        boolean condicao1 = getBoard().positionExists(posicaoAux);
-        // não existe peça na posição
-        boolean condicao2 = !getBoard().thereIsAPiece(posicaoAux);
-        // existe a posição pd
-        boolean condicao3 = getBoard().positionExists(p2);
-
-        boolean condicao4 = !getBoard().thereIsAPiece(p2);
-        boolean condicao5 = getMoveCount() == 0;
-
-        if (condicao1 && condicao2 && condicao3 && condicao4 && condicao5) {
             matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
         }
     }
 
+    /**
+     *  Verifica se um movimento duplo (para frente no primeiro turno) é possível.
+     * @param matrizAux
+     * @param posicaoAux
+     * @param linha
+     * @param coluna
+     * @param auxlinha
+     * @param auxcoluna
+     * @return
+     */
+    private boolean checkDoubleMove(boolean[][] matrizAux, Position posicaoAux, int linha, int coluna, int auxlinha, int auxcoluna) {
+        Position p2 = new Position(position.getRow() + auxlinha, position.getColumn() + auxcoluna);
+        posicaoAux.setValues(position.getRow() + linha, position.getColumn() + coluna);
 
-    private void checkEnPassant(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
-        //atualizar posição
-        posicaoAux.setValues(getPosition().getRow() + linhaDirecao, getPosition().getColumn() + colunaDirecao);
+        if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux) &&
+                getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) &&
+                getMoveCount() == 0) {
+            matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
+        }
+        return false;
     }
 
+    /**
+     * Verifica se uma captura (diagonal) é possível.
+     *
+     * Verifica se há oponente na posição esquerda ou direita, se sim pode mover para
+     * posição onde tem oponente.
+     *
+     * @param posicaoAux
+     * @param mat
+     * @param linhaDirecao
+     * @param colunaDirecao
+     */
+    public boolean checkOponentMove(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {
+        posicaoAux.setValues(getPosition().getRow() + linhaDirecao, getPosition().getColumn() + colunaDirecao);
+        if (getBoard().positionExists(posicaoAux) && isThereOpponentPiece(posicaoAux)) {
+            return mat[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
+        }
+        return false;
+    }
 }
-

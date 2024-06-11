@@ -4,9 +4,7 @@ import application.UI;
 import boardGame.Board;
 import boardGame.Piece;
 import boardGame.Position;
-import chess.piecesType.Rook;
-import chess.piecesType.King;
-import piecesType.Pawn;
+import chess.piecesType.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +43,53 @@ public class ChessMatch {
      * o que está errado no xadrez, seria na A1 por isso crimamos o placeNewPiece
      */
     public void initialSetup() {
-        // board.placePiece(new king(board,Color.PRETO), new Position(0,0));
+//        // board.placePiece(new king(board,Color.PRETO), new Position(0,0));
+//        placeNewPiece('a', 2, new Pawn(board, Color.BRANCO));
+     //   placeNewPiece('b', 1, new Pawn(board, Color.BRANCO));
+//        placeNewPiece('c', 2, new Pawn(board, Color.BRANCO));
+//        placeNewPiece('d', 2, new Pawn(board, Color.BRANCO));
+//        placeNewPiece('e', 2, new Pawn(board, Color.BRANCO));
+//        placeNewPiece('f', 2, new Pawn(board, Color.BRANCO));
+//        placeNewPiece('g', 2, new Pawn(board, Color.BRANCO));
+//        placeNewPiece('h', 2, new Pawn(board, Color.BRANCO));
+//
+//
+//        placeNewPiece('a',1, new Rook(board, Color.BRANCO));
+//        placeNewPiece('h',1, new Rook(board, Color.BRANCO));
+//
+//        placeNewPiece('b',1, new Knight(board, Color.BRANCO));
+//        placeNewPiece('g',1, new Knight(board, Color.BRANCO));
+//
+//        placeNewPiece('c',1, new Bishop(board, Color.BRANCO));
+//        placeNewPiece('f',1, new Bishop(board, Color.BRANCO));
+//
+//        placeNewPiece('d',1, new Queen(board, Color.BRANCO));
+        placeNewPiece('e',1, new King(board, Color.BRANCO));
 
-        placeNewPiece('h', 7, new Rook(board, Color.BRANCO));
-        placeNewPiece('d', 1, new Rook(board, Color.BRANCO));
-        placeNewPiece('e', 1, new King(board, Color.BRANCO));
 
-        placeNewPiece('a' ,2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('a' ,3, new Pawn(board, Color.PRETO));
 
-        placeNewPiece('b' ,2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('c' ,2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('d' ,2, new Pawn(board, Color.BRANCO));
+        //        placeNewPiece('a', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('b', 3, new Pawn(board, Color.PRETO));
+//        placeNewPiece('c', 7, new Pawn(board, Color.PRETO));
+//        placeNewPiece('d', 7, new Pawn(board, Color.PRETO));
+//        placeNewPiece('e', 7, new Pawn(board, Color.PRETO));
+//        placeNewPiece('f', 7, new Pawn(board, Color.PRETO));
+//        placeNewPiece('g', 7, new Pawn(board, Color.PRETO));
+//        placeNewPiece('h', 7, new Pawn(board, Color.PRETO));
+//
+//        placeNewPiece('a',8, new Rook(board, Color.PRETO));
+//        placeNewPiece('h',8, new Rook(board, Color.PRETO));
+//
+//        placeNewPiece('b',8, new Knight(board, Color.PRETO));
+//        placeNewPiece('g',8, new Knight(board, Color.PRETO));
+//
+//        placeNewPiece('c',8, new Bishop(board, Color.PRETO));
+//        placeNewPiece('f',8, new Bishop(board, Color.PRETO));
+//
+//        placeNewPiece('d',8, new Queen(board, Color.PRETO));
+       placeNewPiece('e',8, new King(board, Color.PRETO));
 
-        placeNewPiece('b', 8, new Rook(board, Color.PRETO));
-        placeNewPiece('a', 8, new King(board, Color.PRETO));
+
 
     }
 
@@ -87,14 +117,12 @@ public class ChessMatch {
             throw new ChessException("Você não pode se colocar em check");
         }
         check = testCheck(opponent(currentPlayer));
-
         // se a jogada feita, deixou o meu oponente em checkMate, o jogo acaba
         if (testCheckMate(opponent(currentPlayer))) {
             checkMate = true;
         } else {
             nextTurn();
         }
-
         return (ChessPieces) capturedPiece;
     }
 
@@ -276,10 +304,8 @@ public class ChessMatch {
      */
     private boolean testCheck(Color cor) {
         //pega a posição do rei em formato de matriz
-        //Obter a posição do rei
-        //Obter peças do oponente
-        //Verificar ameaças ao rei
         Position kingPosition = king(cor).getChessPosition().toPosition();
+        //
         List<Piece> opponentePieces = piecesOnTheBoard.stream().filter(
                 piece -> ((ChessPieces) piece).getColor() == opponent(cor)).toList();
 
@@ -288,7 +314,6 @@ public class ChessMatch {
 //             if(matComMovPossiveis[kingPosition.getRow()][kingPosition.getColumn()]){
 //                return  true;
 //             }
-            //se a peça pode mover para a posição onde o rei esta então check
             if (p.possibleMove(kingPosition)) {
                 return true;
             }
@@ -296,17 +321,10 @@ public class ChessMatch {
         return false;
     }
 
-    /**
-     * Verifica se a partida estiver em checkMate.
-     * <p>
-     * OBS: checkMate é diferente de check.
-     * CheckMate é quando o rei estiver em check e não
-     * haver mais movimentos possiveis tanto para o rei quanto para as outras peças.
-     *
-     * @param cor
-     * @return
-     */
-    private boolean testCheckMate(Color cor) {
+
+
+
+    private boolean testCheckMate1(Color cor) {
         if (!testCheck(cor)) {
             return false;
         }
@@ -316,7 +334,6 @@ public class ChessMatch {
         for (Piece peca : list) {
             // matriz que guarda as posições na qual a peça atual pode se mover
             boolean[][] matriz = peca.possibleMoves();
-
             // não posso percorer a matriz dessa forma "matriz.length", pois ela não é o meu tabuleiro
             for (int i = 0; i < getBoard().getRows(); i++) {
                 for (int j = 0; j < getBoard().getColumns(); j++) {
@@ -324,10 +341,8 @@ public class ChessMatch {
                         // a origem é a posição da peca atual
                         Position source = ((ChessPieces) peca).getChessPosition().toPosition();
                         Position targuet = new Position(i, j);
-
                         // realiza o movimento APENAS PARA TESTAR se o rei do oponente estiver em check
                         Piece capturedPiece = makeMove(source, targuet);
-
                         // Testa se a peça rei do meu oponente estiver em check
                         boolean testCheck = testCheck(cor);
 
@@ -341,9 +356,34 @@ public class ChessMatch {
                 }
             }
         }
-        return false;
+        return true;
     }
 
+
+    private boolean testCheckMate(Color color) {
+        if (!testCheck(color)) {
+            return false;
+        }
+        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPieces)x).getColor() == color).collect(Collectors.toList());
+        for (Piece p : list) {
+            boolean[][] mat = p.possibleMoves();
+            for (int i=0; i<board.getRows(); i++) {
+                for (int j=0; j<board.getColumns(); j++) {
+                    if (mat[i][j]) {
+                        Position source = ((ChessPieces)p).getChessPosition().toPosition();
+                        Position target = new Position(i, j);
+                        Piece capturedPiece = makeMove(source, target);
+                        boolean testCheck = testCheck(color);
+                        undoMove(source, target, capturedPiece);
+                        if (!testCheck) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     // ==================
     //  Getter e setter

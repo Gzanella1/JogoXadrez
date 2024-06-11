@@ -48,6 +48,7 @@ public class Main {
             catch (ChessException | InputMismatchException e){
                 System.out.println(e.getMessage());
                 in.nextLine();
+
             }
         }
         UI.clearScreen();
