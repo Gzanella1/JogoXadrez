@@ -21,12 +21,9 @@ public class Pawn extends ChessPieces {
     public boolean[][] possibleMoves() {
         boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
         Position posicaoAux = new Position(0, 0);
-
         if (getColor() == Color.BRANCO) {
             checkMove(posicaoAux, mat, -1, 0);
-
             checkDoubleMove(mat, posicaoAux, -2, 0, -1, 0);
-
             checkOponentMove(posicaoAux, mat, -1, -1);
             checkOponentMove(posicaoAux, mat, -1, +1);
         } else {
@@ -35,7 +32,6 @@ public class Pawn extends ChessPieces {
             checkOponentMove(posicaoAux, mat, 1, -1);
             checkOponentMove(posicaoAux, mat, 1, 1);
         }
-
         return mat;
     }
 
@@ -54,7 +50,7 @@ public class Pawn extends ChessPieces {
     }
 
     /**
-     *  Verifica se um movimento duplo (para frente no primeiro turno) é possível.
+     *  Verifica se um movimento duplo (para frente na primeira jogada da peça) é possível.
      * @param matrizAux
      * @param posicaoAux
      * @param linha

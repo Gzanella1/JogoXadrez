@@ -43,53 +43,44 @@ public class ChessMatch {
      * o que está errado no xadrez, seria na A1 por isso crimamos o placeNewPiece
      */
     public void initialSetup() {
-//        // board.placePiece(new king(board,Color.PRETO), new Position(0,0));
-//        placeNewPiece('a', 2, new Pawn(board, Color.BRANCO));
-     //   placeNewPiece('b', 1, new Pawn(board, Color.BRANCO));
-//        placeNewPiece('c', 2, new Pawn(board, Color.BRANCO));
-//        placeNewPiece('d', 2, new Pawn(board, Color.BRANCO));
-//        placeNewPiece('e', 2, new Pawn(board, Color.BRANCO));
-//        placeNewPiece('f', 2, new Pawn(board, Color.BRANCO));
-//        placeNewPiece('g', 2, new Pawn(board, Color.BRANCO));
-//        placeNewPiece('h', 2, new Pawn(board, Color.BRANCO));
-//
-//
-//        placeNewPiece('a',1, new Rook(board, Color.BRANCO));
-//        placeNewPiece('h',1, new Rook(board, Color.BRANCO));
-//
-//        placeNewPiece('b',1, new Knight(board, Color.BRANCO));
-//        placeNewPiece('g',1, new Knight(board, Color.BRANCO));
-//
-//        placeNewPiece('c',1, new Bishop(board, Color.BRANCO));
-//        placeNewPiece('f',1, new Bishop(board, Color.BRANCO));
-//
-//        placeNewPiece('d',1, new Queen(board, Color.BRANCO));
+        // board.placePiece(new king(board,Color.PRETO), new Position(0,0));
+        placeNewPiece('a', 2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('b', 2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('c', 2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('d', 2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('e', 2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('f', 2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('g', 2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('h', 2, new Pawn(board, Color.BRANCO));
+
+        placeNewPiece('a',1, new Rook(board, Color.BRANCO));
+        placeNewPiece('h',1, new Rook(board, Color.BRANCO));
+        placeNewPiece('b',1, new Knight(board, Color.BRANCO));
+        placeNewPiece('g',1, new Knight(board, Color.BRANCO));
+        placeNewPiece('c',1, new Bishop(board, Color.BRANCO));
+        placeNewPiece('f',1, new Bishop(board, Color.BRANCO));
+        placeNewPiece('d',1, new Queen(board, Color.BRANCO));
         placeNewPiece('e',1, new King(board, Color.BRANCO));
 
 
 
-        //        placeNewPiece('a', 7, new Pawn(board, Color.PRETO));
-        placeNewPiece('b', 3, new Pawn(board, Color.PRETO));
-//        placeNewPiece('c', 7, new Pawn(board, Color.PRETO));
-//        placeNewPiece('d', 7, new Pawn(board, Color.PRETO));
-//        placeNewPiece('e', 7, new Pawn(board, Color.PRETO));
-//        placeNewPiece('f', 7, new Pawn(board, Color.PRETO));
-//        placeNewPiece('g', 7, new Pawn(board, Color.PRETO));
-//        placeNewPiece('h', 7, new Pawn(board, Color.PRETO));
-//
-//        placeNewPiece('a',8, new Rook(board, Color.PRETO));
-//        placeNewPiece('h',8, new Rook(board, Color.PRETO));
-//
-//        placeNewPiece('b',8, new Knight(board, Color.PRETO));
-//        placeNewPiece('g',8, new Knight(board, Color.PRETO));
-//
-//        placeNewPiece('c',8, new Bishop(board, Color.PRETO));
-//        placeNewPiece('f',8, new Bishop(board, Color.PRETO));
-//
-//        placeNewPiece('d',8, new Queen(board, Color.PRETO));
-       placeNewPiece('e',8, new King(board, Color.PRETO));
+        placeNewPiece('a', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('b', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('c', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('d', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('e', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('f', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('g', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('h', 7, new Pawn(board, Color.PRETO));
 
-
+        placeNewPiece('a',8, new Rook(board, Color.PRETO));
+        placeNewPiece('h',8, new Rook(board, Color.PRETO));
+        placeNewPiece('b',8, new Knight(board, Color.PRETO));
+        placeNewPiece('g',8, new Knight(board, Color.PRETO));
+        placeNewPiece('c',8, new Bishop(board, Color.PRETO));
+        placeNewPiece('f',8, new Bishop(board, Color.PRETO));
+        placeNewPiece('d', 8, new Queen(board, Color.PRETO));
+        placeNewPiece('e', 8, new King(board, Color.PRETO));
 
     }
 
@@ -116,6 +107,9 @@ public class ChessMatch {
             undoMove(source, target, capturedPiece);
             throw new ChessException("Você não pode se colocar em check");
         }
+
+        ChessPieces pecaMovida = (ChessPieces) board.piece(target);
+
         check = testCheck(opponent(currentPlayer));
         // se a jogada feita, deixou o meu oponente em checkMate, o jogo acaba
         if (testCheckMate(opponent(currentPlayer))) {
@@ -123,6 +117,16 @@ public class ChessMatch {
         } else {
             nextTurn();
         }
+
+        // Movimento Especial "en passant"
+        if(pecaMovida instanceof Pawn && (target.getRow() == source.getRow() -2 || target.getRow() == source.getRow() + 2)){
+            //significa que esse peão fez o primeiro movimento e esta vulneravel ao movimento especial
+            enPassantVulnearable=pecaMovida;
+        }else{
+            enPassantVulnearable=null;
+        }
+
+
         return (ChessPieces) capturedPiece;
     }
 
