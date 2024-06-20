@@ -34,10 +34,37 @@ Para executar o projeto, siga as instruções abaixo:
 
 2. **Compile e execute o projeto**:
 
+Claro! Aqui está a seção melhorada do README com imagens explicativas de como jogar:
 
- ## Como Fucionalidades :
+---
 
- 
+## Como Jogar
+
+Abaixo temos a primeira visualização do jogo. As peças brancas estão na cor azul e as pretas na cor amarela. 
+
 ![image](https://github.com/Gzanella1/JogoXadrez/assets/96748771/4579cb63-51a1-4c8d-a160-bae537d11af9)
 
+### Interface do Jogo
 
+- **Turno Atual**: Indica de quem é a vez de jogar.
+- **Peças Capturadas**: Lista de todas as peças capturadas durante o jogo.
+
+### Legenda das Peças
+
+- **P**: Peão
+- **T**: Torre
+- **C**: Cavalo
+- **B**: Bispo
+- **Q**: Rainha
+- **K**: Rei
+
+### Início do Jogo
+
+1. **Posição de Origem**: O jogador deve selecionar a peça que deseja mover.
+2. **Destino**: Após selecionar a peça, o jogador deve indicar para onde deseja movê-la.
+
+Ao iniciar, o jogo estará aguardando a seleção da posição de origem do jogador. Em seguida, será solicitada a posição de destino.
+
+---
+
+Se precisar de mais alguma ajuda ou tiver outras dúvidas, estou à disposição!
