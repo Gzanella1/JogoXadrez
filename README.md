@@ -65,13 +65,14 @@ Abaixo temos a primeira visualização do jogo. As peças brancas estão na cor 
 3. **Destino**: Indique para onde deseja mover a peça selecionada.
 
 ![image](https://github.com/Gzanella1/JogoXadrez/assets/96748771/a703ff2e-4e9a-43c6-b8e2-bc862fc4be4d)
-![image](https://github.com/Gzanella1/JogoXadrez/assets/96748771/27e27013-2bae-45d3-a8b2-a15e12061a82)
 
 ### Promoção de Peça
 
 Quando um peão atinge a última fileira, ele pode ser promovido a uma peça mais poderosa (Rainha, Torre, Bispo ou Cavalo).
 
 ![image](https://github.com/Gzanella1/JogoXadrez/assets/96748771/35ab2d86-8022-4a22-bb5d-b0d2303ec16c)
+![image](https://github.com/Gzanella1/JogoXadrez/assets/96748771/27e27013-2bae-45d3-a8b2-a15e12061a82)
+
 
 ### Xeque-Mate
 
