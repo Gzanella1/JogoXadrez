@@ -33,14 +33,14 @@ public  abstract class ChessPieces extends Piece{
     }
 
     /**
-     * incrementa o atrivuto moveCaunt
+     * incrementa o atributo moveCaunt
      */
     protected void increaseMove(){
         setMoveCount(+1);
     }
 
     /**
-     * decrementa o atrivuto moveCaunt
+     * decrementa o atributo moveCaunt
      */
     protected void decreaseMove(){
         setMoveCount(-1);

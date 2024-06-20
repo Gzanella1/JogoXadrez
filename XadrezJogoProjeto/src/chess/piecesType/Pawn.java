@@ -32,38 +32,54 @@ public class Pawn extends ChessPieces {
             checkOponentMove(posicaoAux, mat, -1, +1);
 
             // movimento especial en passant branco
-            // #specialmove en passant white
-            if (position.getRow() == 3) {
-                Position left = new Position(position.getRow(), position.getColumn() - 1);
-                if (getBoard().positionExists(left) && isThereOpponentPiece(left) && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
-                    mat[left.getRow() - 1][left.getColumn()] = true;
-                }
-                Position right = new Position(position.getRow(), position.getColumn() + 1);
-                if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
-                    mat[right.getRow() - 1][right.getColumn()] = true;
-                }
-            }
+            enPassant(mat, 3,-1);
         } else {
             checkMove(posicaoAux, mat, 1, 0);
             checkDoubleMove(mat, posicaoAux, 2, 0, 1, 0);
             checkOponentMove(posicaoAux, mat, 1, -1);
             checkOponentMove(posicaoAux, mat, 1, 1);
 
-            // #specialmove en passant black
-            if (position.getRow() == 4) {
-                Position left = new Position(position.getRow(), position.getColumn() - 1);
-                if (getBoard().positionExists(left) && isThereOpponentPiece(left)
-                        && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
-                    mat[left.getRow() + 1][left.getColumn()] = true;
-                }
-                Position right = new Position(position.getRow(), position.getColumn() + 1);
-                if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
-                    mat[right.getRow() + 1][right.getColumn()] = true;
-                }
-            }
+            // movimento especial en passant branco
+            enPassant(mat, 4,1);
         }
         return mat;
     }
+
+    /**
+     * Verifica e marca possíveis movimentos de en passant na matriz de posições.
+     *
+     * @param matrizAux Matriz de booleanos que indica as posições válidas.
+     * @param linha     Linha específica do tabuleiro que precisa ser verificada.
+     * @param auxLinha  Ajuste de linha necessário para a captura en passant.
+     */
+    public void enPassant(boolean[][] matrizAux, int linha, int auxLinha) {
+        // Verifica se a peça está na linha especificada
+        if (position.getRow() == linha) {
+            // Cria uma posição à esquerda da peça atual
+            Position left = new Position(position.getRow(), position.getColumn() - 1);
+
+            // Verifica se a posição à esquerda existe, se há uma peça do oponente nela,
+            // e se essa peça é vulnerável ao en passant
+            if (getBoard().positionExists(left) && isThereOpponentPiece(left)
+                    && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
+                // Marca a posição ajustada como válida para o en passant
+                matrizAux[left.getRow() + auxLinha][left.getColumn()] = true;
+            }
+
+            // Cria uma posição à direita da peça atual
+            Position right = new Position(position.getRow(), position.getColumn() + 1);
+
+            // Verifica se a posição à direita existe, se há uma peça do oponente nela,
+            // e se essa peça é vulnerável ao en passant
+            if (getBoard().positionExists(right) && isThereOpponentPiece(right)
+                    && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
+                // Marca a posição ajustada como válida para o en passant
+                matrizAux[right.getRow() + auxLinha][right.getColumn()] = true;
+            }
+        }
+    }
+
+
 
     /**
      *  Verifica se um movimento simples (para frente) é possível.

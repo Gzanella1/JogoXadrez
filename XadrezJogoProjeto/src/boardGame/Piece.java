@@ -10,11 +10,6 @@ public abstract class Piece {
         position = null;
     }
 
-    public Piece[][] possibleMove() {
-        // TODO
-        return null;
-    }
-
     /**
      * Metodo abstrato utilizado para pegar o movimento possivel de todas as peças.
      * @return
