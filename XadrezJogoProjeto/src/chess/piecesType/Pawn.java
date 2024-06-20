@@ -2,19 +2,23 @@ package chess.piecesType;
 
 import boardGame.Board;
 import boardGame.Position;
+import chess.ChessMatch;
 import chess.ChessPieces;
 import chess.Color;
 
 public class Pawn extends ChessPieces {
 
+    private ChessMatch chessMatch;
+
+    public Pawn(Board board, Color color, ChessMatch chessMatch) {
+            super(board, color);
+            this.chessMatch = chessMatch;
+        }
+
 
     @Override
     public String toString() {
         return " P ";
-    }
-
-    public Pawn(Board board, Color color) {
-        super(board, color);
     }
 
     @Override
@@ -26,11 +30,37 @@ public class Pawn extends ChessPieces {
             checkDoubleMove(mat, posicaoAux, -2, 0, -1, 0);
             checkOponentMove(posicaoAux, mat, -1, -1);
             checkOponentMove(posicaoAux, mat, -1, +1);
+
+            // movimento especial en passant branco
+            // #specialmove en passant white
+            if (position.getRow() == 3) {
+                Position left = new Position(position.getRow(), position.getColumn() - 1);
+                if (getBoard().positionExists(left) && isThereOpponentPiece(left) && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
+                    mat[left.getRow() - 1][left.getColumn()] = true;
+                }
+                Position right = new Position(position.getRow(), position.getColumn() + 1);
+                if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
+                    mat[right.getRow() - 1][right.getColumn()] = true;
+                }
+            }
         } else {
             checkMove(posicaoAux, mat, 1, 0);
             checkDoubleMove(mat, posicaoAux, 2, 0, 1, 0);
             checkOponentMove(posicaoAux, mat, 1, -1);
             checkOponentMove(posicaoAux, mat, 1, 1);
+
+            // #specialmove en passant black
+            if (position.getRow() == 4) {
+                Position left = new Position(position.getRow(), position.getColumn() - 1);
+                if (getBoard().positionExists(left) && isThereOpponentPiece(left)
+                        && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
+                    mat[left.getRow() + 1][left.getColumn()] = true;
+                }
+                Position right = new Position(position.getRow(), position.getColumn() + 1);
+                if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
+                    mat[right.getRow() + 1][right.getColumn()] = true;
+                }
+            }
         }
         return mat;
     }

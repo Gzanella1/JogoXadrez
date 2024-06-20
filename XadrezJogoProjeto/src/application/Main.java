@@ -44,6 +44,12 @@ public class Main {
                     captured.add(capturedPiece);
                 }
 
+                if (chessMatch.getPromoted() != null) {
+                    System.out.print("Informa qual a peça para a promoção do peão (B/C/T/Q): ");
+                    String type = in.nextLine();
+                    chessMatch.replacePromotedPiece(type);
+                }
+
             }
             catch (ChessException | InputMismatchException e){
                 System.out.println(e.getMessage());

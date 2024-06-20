@@ -19,7 +19,7 @@ public class ChessMatch {
     private boolean check;
     private boolean checkMate;
 
-    private ChessPieces enPassantVulnearable;
+    private ChessPieces enPassantVulnerable;
     private ChessPieces promoted;
 
     private List<Piece> piecesOnTheBoard = new ArrayList<>();
@@ -44,14 +44,14 @@ public class ChessMatch {
      */
     public void initialSetup() {
         // board.placePiece(new king(board,Color.PRETO), new Position(0,0));
-        placeNewPiece('a', 2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('b', 2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('c', 2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('d', 2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('e', 2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('f', 2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('g', 2, new Pawn(board, Color.BRANCO));
-        placeNewPiece('h', 2, new Pawn(board, Color.BRANCO));
+        placeNewPiece('a', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPiece('b', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPiece('c', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPiece('d', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPiece('e', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPiece('f', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPiece('g', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPiece('h', 2, new Pawn(board, Color.BRANCO,this));
 
         placeNewPiece('a',1, new Rook(board, Color.BRANCO));
         placeNewPiece('h',1, new Rook(board, Color.BRANCO));
@@ -63,15 +63,14 @@ public class ChessMatch {
         placeNewPiece('e',1, new King(board, Color.BRANCO));
 
 
-
-        placeNewPiece('a', 7, new Pawn(board, Color.PRETO));
-        placeNewPiece('b', 7, new Pawn(board, Color.PRETO));
-        placeNewPiece('c', 7, new Pawn(board, Color.PRETO));
-        placeNewPiece('d', 7, new Pawn(board, Color.PRETO));
-        placeNewPiece('e', 7, new Pawn(board, Color.PRETO));
-        placeNewPiece('f', 7, new Pawn(board, Color.PRETO));
-        placeNewPiece('g', 7, new Pawn(board, Color.PRETO));
-        placeNewPiece('h', 7, new Pawn(board, Color.PRETO));
+        placeNewPiece('a', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPiece('b', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPiece('c', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPiece('d', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPiece('e', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPiece('f', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPiece('g', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPiece('h', 7, new Pawn(board, Color.PRETO,this));
 
         placeNewPiece('a',8, new Rook(board, Color.PRETO));
         placeNewPiece('h',8, new Rook(board, Color.PRETO));
@@ -107,7 +106,6 @@ public class ChessMatch {
             undoMove(source, target, capturedPiece);
             throw new ChessException("Você não pode se colocar em check");
         }
-
         ChessPieces pecaMovida = (ChessPieces) board.piece(target);
 
         check = testCheck(opponent(currentPlayer));
@@ -119,11 +117,12 @@ public class ChessMatch {
         }
 
         // Movimento Especial "en passant"
-        if(pecaMovida instanceof Pawn && (target.getRow() == source.getRow() -2 || target.getRow() == source.getRow() + 2)){
+        if (pecaMovida instanceof Pawn && (target.getRow() == source.getRow() - 2 || target.getRow() == source.getRow() + 2)) {
             //significa que esse peão fez o primeiro movimento e esta vulneravel ao movimento especial
-            enPassantVulnearable=pecaMovida;
-        }else{
-            enPassantVulnearable=null;
+            enPassantVulnerable = pecaMovida;
+        }
+        else {
+            enPassantVulnerable = null;
         }
 
 
@@ -201,6 +200,24 @@ public class ChessMatch {
             piecesOnTheBoard.remove(capturedPiece);
             capturedPieces.add(capturedPiece);
         }
+
+
+        // Movimento especial el pasant
+        if (p instanceof Pawn) {
+            if (source.getColumn() != target.getColumn() && capturedPiece == null) {
+                Position pawnPosition;
+                if (((Pawn) p).getColor() == Color.BRANCO) {
+                    pawnPosition = new Position(target.getRow() + 1, target.getColumn());
+                }
+                else {
+                    pawnPosition = new Position(target.getRow() - 1, target.getColumn());
+                }
+                capturedPiece = board.removePiece(pawnPosition);
+                capturedPieces.add(capturedPiece);
+                piecesOnTheBoard.remove(capturedPiece);
+            }
+        }
+
         return capturedPiece;
     }
 
@@ -224,6 +241,24 @@ public class ChessMatch {
             piecesOnTheBoard.add(peca);
             capturedPieces.remove(peca);
 
+        }
+
+
+
+
+        // #specialmove en passant
+        if (peca instanceof Pawn) {
+            if (source.getColumn() != target.getColumn() && capturedPiece == enPassantVulnerable) {
+                ChessPieces pawn = (ChessPieces) board.removePiece(target);
+                Position pawnPosition;
+                if (((Pawn) peca).getColor() == Color.BRANCO) {
+                    pawnPosition = new Position(3, target.getColumn());
+                }
+                else {
+                    pawnPosition = new Position(4, target.getColumn());
+                }
+                board.placePiece(pawn, pawnPosition);
+            }
         }
     }
 
@@ -389,6 +424,12 @@ public class ChessMatch {
         return true;
     }
 
+
+
+    public ChessPieces getEnPassantVulnerable() {
+        return enPassantVulnerable;
+    }
+
     // ==================
     //  Getter e setter
     // ==================
@@ -417,13 +458,11 @@ public class ChessMatch {
         this.checkMate = checkMate;
     }
 
-    public ChessPieces getEnPassantVulnearable() {
-        return enPassantVulnearable;
-    }
 
     public void setEnPassantVulnearable(ChessPieces enPassantVulnearable) {
-        this.enPassantVulnearable = enPassantVulnearable;
+        this.enPassantVulnerable = enPassantVulnearable;
     }
+
 
     public ChessPieces getPromoted() {
         return promoted;
