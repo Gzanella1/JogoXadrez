@@ -29,7 +29,7 @@ public class Main {
 
                 // possiveis movimentos
                 boolean[][] possibleMoves = chessMatch.possibleMoves(source);
-                UI.clearScreen();
+                //UI.clearScreen();
                 System.out.flush();
 
                 UI.printBoard(chessMatch.getPieces(), possibleMoves);
@@ -52,7 +52,7 @@ public class Main {
                 in.nextLine();
             }
         }
-        UI.clearScreen();
+       // UI.clearScreen();
         UI.printMatch(chessMatch, captured);
     }
 }
