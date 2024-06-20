@@ -76,7 +76,7 @@ Quando um peão atinge a última fileira, ele pode ser promovido a uma peça mai
 
 ### Xeque
 
-Se um jogador estiver em xeque-mate, uma mensagem em vermelho informará que o jogador está em xeque.
+Se um jogador estiver em xeque, uma mensagem em vermelho informará que o jogador está em xeque o mesmo se aplica ao xeque-mate
 
 ![image](https://github.com/Gzanella1/JogoXadrez/assets/96748771/47520d0d-d047-4d54-87f7-7b8a8c85f1aa)
 
