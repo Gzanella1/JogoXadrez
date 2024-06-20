@@ -42,50 +42,6 @@ Para executar o projeto, siga as instruções abaixo:
     java -cp bin Main
     ```
 
-## Exemplos de Código
-
-### Inicialização do Tabuleiro
-
-```java
-public static void main(String[] args) {
-    ChessMatch chessMatch = new ChessMatch();
-    UI.printBoard(chessMatch.getPieces());
-}
-```
-
-### Movimentação de uma Peça
-
-```java
-public void performChessMove(Position source, Position target) {
-    ChessPiece capturedPiece = makeMove(source, target);
-    if (testCheck(currentPlayer)) {
-        undoMove(source, target, capturedPiece);
-        throw new ChessException("Você não pode se colocar em xeque");
-    }
-
-    promoted = null;
-    if (getBoard().piece(target) instanceof Pawn) {
-        if (target.getRow() == 0 || target.getRow() == 7) {
-            promoted = (ChessPiece) getBoard().piece(target);
-            promoted = replacePromotedPiece("Q");
-        }
-    }
-
-    check = (testCheck(opponent(currentPlayer))) ? true : false;
-
-    if (testCheckMate(opponent(currentPlayer))) {
-        checkMate = true;
-    } else {
-        nextTurn();
-    }
-
-    if (getBoard().piece(target) instanceof Pawn && (target.getRow() == 3 || target.getRow() == 4)) {
-        enPassantVulnerable = (ChessPiece) getBoard().piece(target);
-    } else {
-        enPassantVulnerable = null;
-    }
-}
-```
 
 ## Contribuições
 
