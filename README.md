@@ -29,7 +29,7 @@ Para executar o projeto, siga as instruções abaixo:
 
 1. **Clone o repositório**:
     ```bash
-    git clone https://github.com/seu-usuario/projeto-xadrez.git
+    git clone https://github.com/Gzanella1/JogoXadrez.git
     ```
 
 2. **Compile o projeto**:
@@ -42,30 +42,3 @@ Para executar o projeto, siga as instruções abaixo:
     java -cp bin Main
     ```
 
-
-## Contribuições
-
-Contribuições são bem-vindas! Se você deseja contribuir com este projeto, por favor, siga as diretrizes abaixo:
-
-1. **Fork** o repositório.
-2. Crie uma nova branch com suas alterações:
-    ```bash
-    git checkout -b minha-branch
-    ```
-3. Faça o commit de suas alterações:
-    ```bash
-    git commit -m "Minha contribuição"
-    ```
-4. Envie para o branch original:
-    ```bash
-    git push origin minha-branch
-    ```
-5. Abra um Pull Request.
-
-## Licença
-
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
-## Contato
-
-Para mais informações, entre em contato através do email: [seu-email@example.com](mailto:seu-email@example.com).
