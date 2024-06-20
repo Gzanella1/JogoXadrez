@@ -6,6 +6,7 @@ import boardGame.Piece;
 import boardGame.Position;
 import chess.piecesType.*;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +44,6 @@ public class ChessMatch {
      * o que está errado no xadrez, seria na A1 por isso crimamos o placeNewPiece
      */
     public void initialSetup() {
-        // board.placePiece(new king(board,Color.PRETO), new Position(0,0));
         placeNewPiece('a', 2, new Pawn(board, Color.BRANCO,this));
         placeNewPiece('b', 2, new Pawn(board, Color.BRANCO,this));
         placeNewPiece('c', 2, new Pawn(board, Color.BRANCO,this));
@@ -106,7 +106,18 @@ public class ChessMatch {
             undoMove(source, target, capturedPiece);
             throw new ChessException("Você não pode se colocar em check");
         }
+
         ChessPieces pecaMovida = (ChessPieces) board.piece(target);
+
+        // #specialmove promotion
+        promoted = null;
+        if (pecaMovida instanceof Pawn) {
+            if ((pecaMovida.getColor() == Color.BRANCO && target.getRow() == 0) ||
+                    (pecaMovida.getColor() == Color.PRETO && target.getRow() == 7)) {
+                promoted = (ChessPieces) board.piece(target);
+                promoted = replacePromotedPiece("Q");
+            }
+        }
 
         check = testCheck(opponent(currentPlayer));
         // se a jogada feita, deixou o meu oponente em checkMate, o jogo acaba
@@ -124,7 +135,6 @@ public class ChessMatch {
         else {
             enPassantVulnerable = null;
         }
-
 
         return (ChessPieces) capturedPiece;
     }
@@ -302,10 +312,6 @@ public class ChessMatch {
     }
 
 
-    public ChessPieces replacePromotedPiece(String type) {
-        // TODO
-        return null;
-    }
 
     /**
      * Retorna qual é oponente de uma determinada peça.
@@ -360,34 +366,44 @@ public class ChessMatch {
         return false;
     }
 
-
-
-
-    private boolean testCheckMate1(Color cor) {
-        if (!testCheck(cor)) {
+    /**
+     * Verifica se um jogador está em xeque-mate.
+     *
+     * @param color A cor do jogador a ser verificada.
+     * @return true se o jogador estiver em xeque-mate, caso contrário, false.
+     */
+    private boolean testCheckMate(Color color) {
+        // Verifica se o jogador está em xeque. Se não estiver, retorna false.
+        if (!testCheck(color)) {
             return false;
         }
-        // Lista de peça do meu oponente
-        // Se todas as peças da cor, não estiverem movimentos possiveis que tire do check então está em checkMate
-        List<Piece> list = piecesOnTheBoard.stream().filter(peca -> ((ChessPieces) peca).getColor() == opponent(cor)).toList();
-        for (Piece peca : list) {
-            // matriz que guarda as posições na qual a peça atual pode se mover
-            boolean[][] matriz = peca.possibleMoves();
-            // não posso percorer a matriz dessa forma "matriz.length", pois ela não é o meu tabuleiro
-            for (int i = 0; i < getBoard().getRows(); i++) {
-                for (int j = 0; j < getBoard().getColumns(); j++) {
-                    if (matriz[i][j]) {
-                        // a origem é a posição da peca atual
-                        Position source = ((ChessPieces) peca).getChessPosition().toPosition();
-                        Position targuet = new Position(i, j);
-                        // realiza o movimento APENAS PARA TESTAR se o rei do oponente estiver em check
-                        Piece capturedPiece = makeMove(source, targuet);
-                        // Testa se a peça rei do meu oponente estiver em check
-                        boolean testCheck = testCheck(cor);
 
-                        // DESFAZER O MOVIMENTO FEITO PARA TEXTE ANTERIORMENTE PARA TESTE
-                        undoMove(source, targuet, capturedPiece);
-                        // Se não estava em check, significa que esse movimento tirou rei do check
+        // Cria uma lista com todas as peças do jogador da cor especificada.
+        List<Piece> list = piecesOnTheBoard.stream()
+                .filter(x -> ((ChessPieces)x).getColor() == color)
+                .collect(Collectors.toList());
+
+        // Itera sobre cada peça do jogador.
+        for (Piece p : list) {
+            // Obtém a matriz de possíveis movimentos da peça atual.
+            boolean[][] mat = p.possibleMoves();
+
+            // Percorre todas as posições do tabuleiro.
+            for (int i = 0; i < board.getRows(); i++) {
+                for (int j = 0; j < board.getColumns(); j++) {
+                    // Se a peça pode se mover para a posição (i, j)
+                    if (mat[i][j]) {
+                        // Obtém a posição de origem da peça no formato de tabuleiro de xadrez.
+                        Position source = ((ChessPieces)p).getChessPosition().toPosition();
+                        // Cria um objeto de posição de destino.
+                        Position target = new Position(i, j);
+                        // Faz o movimento e captura a peça se houver alguma na posição de destino.
+                        Piece capturedPiece = makeMove(source, target);
+                        // Testa se o jogador ainda está em xeque após o movimento.
+                        boolean testCheck = testCheck(color);
+                        // Desfaz o movimento.
+                        undoMove(source, target, capturedPiece);
+                        // Se o movimento tirou o jogador do xeque, retorna false.
                         if (!testCheck) {
                             return false;
                         }
@@ -395,33 +411,60 @@ public class ChessMatch {
                 }
             }
         }
+        // Se nenhum movimento possível tira o jogador do xeque, retorna true (xeque-mate).
         return true;
     }
 
 
-    private boolean testCheckMate(Color color) {
-        if (!testCheck(color)) {
-            return false;
+
+    /**
+     * Este método substitui a peça promovida por uma nova peça do tipo especificado.
+     * @param type Tipo da peça promovida (B para Bispo, C para Cavalo, T para Torre, Q para Rainha).
+     * @return A nova peça promovida.
+     */
+    public ChessPieces replacePromotedPiece(String type) {
+        // Verifica se há uma peça a ser promovida.
+        if (promoted == null) {
+            // Se não houver peça a ser promovida, lança uma exceção.
+            throw new IllegalStateException("There is no piece to be promoted");
         }
-        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPieces)x).getColor() == color).collect(Collectors.toList());
-        for (Piece p : list) {
-            boolean[][] mat = p.possibleMoves();
-            for (int i=0; i<board.getRows(); i++) {
-                for (int j=0; j<board.getColumns(); j++) {
-                    if (mat[i][j]) {
-                        Position source = ((ChessPieces)p).getChessPosition().toPosition();
-                        Position target = new Position(i, j);
-                        Piece capturedPiece = makeMove(source, target);
-                        boolean testCheck = testCheck(color);
-                        undoMove(source, target, capturedPiece);
-                        if (!testCheck) {
-                            return false;
-                        }
-                    }
-                }
-            }
+        // Verifica se o tipo fornecido é válido para promoção (B, C, T, Q).
+        if (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("Q")) {
+            // Se o tipo for inválido, lança uma exceção de parâmetro inválido.
+            throw new InvalidParameterException("Invalid type for promotion");
         }
-        return true;
+
+        // Obtém a posição da peça promovida no tabuleiro de xadrez.
+        Position pos = promoted.getChessPosition().toPosition();
+        // Remove a peça atual da posição no tabuleiro.
+        Piece p = board.removePiece(pos);
+        // Remove a peça da lista de peças no tabuleiro.
+        piecesOnTheBoard.remove(p);
+
+        // Cria a nova peça do tipo especificado e com a mesma cor da peça promovida.
+        ChessPieces newPiece = newPiece(type, promoted.getColor());
+        // Coloca a nova peça na posição da peça promovida no tabuleiro.
+        board.placePiece(newPiece, pos);
+        // Adiciona a nova peça à lista de peças no tabuleiro.
+        piecesOnTheBoard.add(newPiece);
+
+        // Retorna a nova peça promovida.
+        return newPiece;
+    }
+
+    /**
+     * Este método cria uma nova peça do tipo e cor especificados.
+     * @param tipo Tipo da peça (B para Bispo, C para Cavalo, T para Torre, Q para Rainha).
+     * @param cor Cor da peça.
+     * @return A nova peça criada.
+     */
+    private ChessPieces newPiece(String tipo, Color cor) {
+        // Verifica o tipo e retorna a peça correspondente.
+        if (tipo.equals("B")) return new Bishop(board, cor);
+        if (tipo.equals("C")) return new Knight(board, cor);
+        if (tipo.equals("Q")) return new Queen(board, cor);
+        // Se não for Bispo, Cavalo ou Rainha, retorna uma Torre por padrão.
+        return new Rook(board, cor);
     }
 
 
