@@ -32,13 +32,12 @@ Para executar o projeto, siga as instruções abaixo:
     git clone https://github.com/Gzanella1/JogoXadrez.git
     ```
 
-2. **Compile o projeto**:
-    ```bash
-    javac -d bin src/*.java
-    ```
+2. **Compile e execute o projeto**:
 
-3. **Execute a aplicação**:
-    ```bash
-    java -cp bin Main
-    ```
+
+ ## Como Fucionalidades :
+
+ 
+![image](https://github.com/Gzanella1/JogoXadrez/assets/96748771/4579cb63-51a1-4c8d-a160-bae537d11af9)
+
 
