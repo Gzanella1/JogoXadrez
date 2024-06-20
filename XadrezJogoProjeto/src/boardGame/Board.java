@@ -5,7 +5,6 @@ public class Board {
     private int columns;
     private Piece[][] pieces;
 
-
     public Board(int rows, int columns) {
         // Verifica se o número de linhas e colunas é válido (deve ser pelo menos 1)
         if (rows < 1 || columns < 1) {
@@ -131,7 +130,6 @@ public class Board {
         // Retorna true se houver uma peça na posição, false caso contrário
         return piece(position) != null;
     }
-
 
     // =========================================================================================
     //  GETTERs - não há set, pois não posso mudar o número de linhas/coluna durante a execução

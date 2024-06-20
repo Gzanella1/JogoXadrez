@@ -49,7 +49,7 @@ public class Knight extends ChessPieces {
     private void checkDirection(Position posicaoAux, boolean[][] matrizAux, int linhaDirecao, int colunaDirecao) {
         posicaoAux.setValues(getPosition().getRow() + linhaDirecao, getPosition().getColumn() + colunaDirecao);
 
-        if (getBoard().positionExists(posicaoAux) && (isThereOpponentPiece(posicaoAux) || !getBoard().thereIsAPiece(posicaoAux) )) {
+        if (getBoard().positionExists(posicaoAux) && (isThereOpponentPiece(posicaoAux) || !getBoard().thereIsAPiece(posicaoAux))) {
             matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
         }
     }

@@ -47,9 +47,9 @@ public class Rook extends ChessPieces {
     /**
      * Verifica uma direção específica no tabuleiro para movimentos possíveis.
      *
-     * @param posicaoAux Posição auxiliar para verificar as direções.
-     * @param mat Matriz de movimentos possíveis.
-     * @param linhaDirecao Direção da linha a ser verificada.
+     * @param posicaoAux    Posição auxiliar para verificar as direções.
+     * @param mat           Matriz de movimentos possíveis.
+     * @param linhaDirecao  Direção da linha a ser verificada.
      * @param colunaDirecao Direção da coluna a ser verificada.
      */
     private void checkDirection(Position posicaoAux, boolean[][] mat, int linhaDirecao, int colunaDirecao) {

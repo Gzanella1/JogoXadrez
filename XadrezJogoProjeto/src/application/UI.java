@@ -5,7 +5,6 @@ import chess.ChessPieces;
 import chess.ChessPosition;
 import chess.Color;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -62,18 +61,16 @@ public class UI {
         System.out.println();
         printCapturedPieces(captured);
         System.out.println();
-        if(!chessMatch.getCheckMate()){
+        if (!chessMatch.getCheckMate()) {
             System.out.println("Turn : " + chessMatch.getTurn());
             System.out.println("Esperando o jogador : " + chessMatch.getCurrentPlayer());
             if (chessMatch.getCheck()) {
                 System.out.println(ANSI_RED + "CHECK!" + ANSI_RESET);
             }
-        }else{
+        } else {
             System.out.println(ANSI_RED + "CHECKMATE se fodeu!" + ANSI_RESET);
-            System.out.println(ANSI_GREEN + "Vencedor:"+ chessMatch.getCurrentPlayer() + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "Vencedor:" + chessMatch.getCurrentPlayer() + ANSI_RESET);
         }
-
-
     }
 
     /**
@@ -165,9 +162,6 @@ public class UI {
         System.out.println(ANSI_YELLOW + Arrays.toString(black.toArray()) + ANSI_RESET);
 
     }
-
-
-
 }
 
 

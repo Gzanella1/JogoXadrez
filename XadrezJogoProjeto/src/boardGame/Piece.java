@@ -12,6 +12,7 @@ public abstract class Piece {
 
     /**
      * Metodo abstrato utilizado para pegar o movimento possivel de todas as peças.
+     *
      * @return
      */
     public abstract boolean[][] possibleMoves();

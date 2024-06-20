@@ -13,11 +13,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        ChessMatch chessMatch=new ChessMatch();
-        List<ChessPieces> captured =new ArrayList<>();
+        ChessMatch chessMatch = new ChessMatch();
+        List<ChessPieces> captured = new ArrayList<>();
 
-
-        while (!chessMatch.getCheckMate()){
+        while (!chessMatch.getCheckMate()) {
             try {
                 //UI.clearScreen();
                 System.out.flush();
@@ -40,25 +39,20 @@ public class Main {
 
                 ChessPieces capturedPiece = chessMatch.performChessMove(source, target);
 
-                if(capturedPiece != null){
+                if (capturedPiece != null) {
                     captured.add(capturedPiece);
                 }
-
                 if (chessMatch.getPromoted() != null) {
                     System.out.print("Informa qual a peça para a promoção do peão (B/C/T/Q): ");
                     String type = in.nextLine();
                     chessMatch.replacePromotedPiece(type);
                 }
-
-            }
-            catch (ChessException | InputMismatchException e){
+            } catch (ChessException | InputMismatchException e) {
                 System.out.println(e.getMessage());
                 in.nextLine();
-
             }
         }
         UI.clearScreen();
-        UI.printMatch(chessMatch,captured);
-
+        UI.printMatch(chessMatch, captured);
     }
 }

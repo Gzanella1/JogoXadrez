@@ -11,10 +11,9 @@ public class Pawn extends ChessPieces {
     private ChessMatch chessMatch;
 
     public Pawn(Board board, Color color, ChessMatch chessMatch) {
-            super(board, color);
-            this.chessMatch = chessMatch;
-        }
-
+        super(board, color);
+        this.chessMatch = chessMatch;
+    }
 
     @Override
     public String toString() {
@@ -32,7 +31,7 @@ public class Pawn extends ChessPieces {
             checkOponentMove(posicaoAux, mat, -1, +1);
 
             // movimento especial en passant branco
-            enPassant(mat, 3,-1);
+            enPassant(mat, 3, -1);
         } else {
             checkMove(posicaoAux, mat, 1, 0);
             checkDoubleMove(mat, posicaoAux, 2, 0, 1, 0);
@@ -40,7 +39,7 @@ public class Pawn extends ChessPieces {
             checkOponentMove(posicaoAux, mat, 1, 1);
 
             // movimento especial en passant branco
-            enPassant(mat, 4,1);
+            enPassant(mat, 4, 1);
         }
         return mat;
     }
@@ -60,8 +59,7 @@ public class Pawn extends ChessPieces {
 
             // Verifica se a posição à esquerda existe, se há uma peça do oponente nela,
             // e se essa peça é vulnerável ao en passant
-            if (getBoard().positionExists(left) && isThereOpponentPiece(left)
-                    && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
+            if (getBoard().positionExists(left) && isThereOpponentPiece(left) && getBoard().piece(left) == chessMatch.getEnPassantVulnerable()) {
                 // Marca a posição ajustada como válida para o en passant
                 matrizAux[left.getRow() + auxLinha][left.getColumn()] = true;
             }
@@ -71,24 +69,22 @@ public class Pawn extends ChessPieces {
 
             // Verifica se a posição à direita existe, se há uma peça do oponente nela,
             // e se essa peça é vulnerável ao en passant
-            if (getBoard().positionExists(right) && isThereOpponentPiece(right)
-                    && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
+            if (getBoard().positionExists(right) && isThereOpponentPiece(right) && getBoard().piece(right) == chessMatch.getEnPassantVulnerable()) {
                 // Marca a posição ajustada como válida para o en passant
                 matrizAux[right.getRow() + auxLinha][right.getColumn()] = true;
             }
         }
     }
 
-
-
     /**
-     *  Verifica se um movimento simples (para frente) é possível.
+     * Verifica se um movimento simples (para frente) é possível.
+     *
      * @param matrizAux
      * @param posicaoAux
      * @param linha
      * @param coluna
      */
-    private void checkMove(Position posicaoAux,boolean[][] matrizAux, int linha, int coluna) {
+    private void checkMove(Position posicaoAux, boolean[][] matrizAux, int linha, int coluna) {
         posicaoAux.setValues(position.getRow() + linha, position.getColumn() + coluna);
         if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux)) {
             matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
@@ -96,7 +92,8 @@ public class Pawn extends ChessPieces {
     }
 
     /**
-     *  Verifica se um movimento duplo (para frente na primeira jogada da peça) é possível.
+     * Verifica se um movimento duplo (para frente na primeira jogada da peça) é possível.
+     *
      * @param matrizAux
      * @param posicaoAux
      * @param linha
@@ -109,9 +106,7 @@ public class Pawn extends ChessPieces {
         Position p2 = new Position(position.getRow() + auxlinha, position.getColumn() + auxcoluna);
         posicaoAux.setValues(position.getRow() + linha, position.getColumn() + coluna);
 
-        if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux) &&
-                getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) &&
-                getMoveCount() == 0) {
+        if (getBoard().positionExists(posicaoAux) && !getBoard().thereIsAPiece(posicaoAux) && getBoard().positionExists(p2) && !getBoard().thereIsAPiece(p2) && getMoveCount() == 0) {
             matrizAux[posicaoAux.getRow()][posicaoAux.getColumn()] = true;
         }
         return false;
@@ -119,7 +114,7 @@ public class Pawn extends ChessPieces {
 
     /**
      * Verifica se uma captura (diagonal) é possível.
-     *
+     * <p>
      * Verifica se há oponente na posição esquerda ou direita, se sim pode mover para
      * posição onde tem oponente.
      *

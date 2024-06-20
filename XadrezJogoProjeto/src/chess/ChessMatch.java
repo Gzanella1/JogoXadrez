@@ -111,8 +111,7 @@ public class ChessMatch {
         // #specialmove promotion
         promoted = null;
         if (pecaMovida instanceof Pawn) {
-            if ((pecaMovida.getColor() == Color.BRANCO && target.getRow() == 0) ||
-                    (pecaMovida.getColor() == Color.PRETO && target.getRow() == 7)) {
+            if ((pecaMovida.getColor() == Color.BRANCO && target.getRow() == 0) || (pecaMovida.getColor() == Color.PRETO && target.getRow() == 7)) {
                 promoted = (ChessPieces) board.piece(target);
                 promoted = replacePromotedPiece("Q");
             }
@@ -343,8 +342,7 @@ public class ChessMatch {
         //pega a posição do rei em formato de matriz
         Position kingPosition = king(cor).getChessPosition().toPosition();
         //
-        List<Piece> opponentePieces = piecesOnTheBoard.stream().filter(
-                piece -> ((ChessPieces) piece).getColor() == opponent(cor)).toList();
+        List<Piece> opponentePieces = piecesOnTheBoard.stream().filter(piece -> ((ChessPieces) piece).getColor() == opponent(cor)).toList();
 
         for (Piece p : opponentePieces) {
             if (p.possibleMove(kingPosition)) {
@@ -367,9 +365,7 @@ public class ChessMatch {
         }
 
         // Cria uma lista com todas as peças do jogador da cor especificada.
-        List<Piece> list = piecesOnTheBoard.stream()
-                .filter(x -> ((ChessPieces) x).getColor() == color)
-                .collect(Collectors.toList());
+        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPieces) x).getColor() == color).collect(Collectors.toList());
 
         // Itera sobre cada peça do jogador.
         for (Piece p : list) {
@@ -402,7 +398,6 @@ public class ChessMatch {
         // Se nenhum movimento possível tira o jogador do xeque, retorna true (xeque-mate).
         return true;
     }
-
 
     /**
      * Este método substitui a peça promovida por uma nova peça do tipo especificado.
